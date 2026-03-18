@@ -87,7 +87,7 @@ export function SkillsTab() {
 
       {/* Mixed mode: sub-toggle for broad vs narrow catalog */}
       {system === 'mixed' && (
-        <div className={styles.toggleGroup} style={{ marginBottom: 12 }}>
+        <div className={styles.toggleGroup} style={{ marginTop: 12, marginBottom: 12 }}>
           <button
             className={`${styles.toggleOption} ${mixedView === 'narrow' ? styles.toggleOptionActive : ''}`}
             onClick={() => setMixedView('narrow')}
