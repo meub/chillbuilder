@@ -1,0 +1,29 @@
+.tabBar {
+  display: flex;
+  gap: 2px;
+  background: var(--bg-secondary);
+  padding: var(--space-xs) var(--space-md);
+  border-bottom: 1px solid var(--border);
+  overflow-x: auto;
+}
+
+.tab {
+  padding: var(--space-sm) var(--space-md);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  color: var(--text-muted);
+  border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+}
+
+.tab:hover {
+  color: var(--text-secondary);
+  background: var(--bg-hover);
+}
+
+.tabActive {
+  color: var(--text-primary);
+  background: var(--bg-primary);
+  border-bottom: 2px solid var(--accent);
+}

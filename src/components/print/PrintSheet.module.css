@@ -1,0 +1,418 @@
+/* ─── SCREEN: HIDDEN ─────────────────────────────────────────────── */
+
+.printSheet {
+  display: none;
+}
+
+/* ─── PRINT STYLES ───────────────────────────────────────────────── */
+
+@page {
+  margin: 0.5in;
+  size: letter;
+}
+
+@media print {
+  /* Hide the app chrome — sidebar, tabs, main content */
+  body > *:not(.printRoot) {
+    display: none !important;
+  }
+
+  .printSheet {
+    display: block;
+    background: #fff;
+    color: #000;
+    font-family: "Times New Roman", "Georgia", serif;
+    font-size: 10pt;
+    line-height: 1.35;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* ─── HEADER ─────────────────────────────────────────────────── */
+
+  .header {
+    text-align: center;
+    border-bottom: 2px solid #000;
+    padding-bottom: 6pt;
+    margin-bottom: 8pt;
+  }
+
+  .characterName {
+    font-size: 20pt;
+    font-weight: bold;
+    margin: 0 0 2pt;
+    letter-spacing: 0.5pt;
+  }
+
+  .headerRow {
+    display: flex;
+    justify-content: center;
+    gap: 16pt;
+    font-size: 9pt;
+    flex-wrap: wrap;
+  }
+
+  .headerField {
+    display: inline;
+  }
+
+  .headerLabel {
+    font-weight: bold;
+  }
+
+  .cipSummary {
+    font-size: 9pt;
+    margin-top: 4pt;
+    font-weight: bold;
+  }
+
+  .cipOver {
+    color: #c00;
+  }
+
+  /* ─── SECTION ────────────────────────────────────────────────── */
+
+  .section {
+    margin-bottom: 8pt;
+    break-inside: avoid;
+  }
+
+  .sectionTitle {
+    font-size: 11pt;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1pt;
+    border-bottom: 1px solid #000;
+    margin: 0 0 4pt;
+    padding-bottom: 2pt;
+  }
+
+  /* ─── ABILITIES ROW ──────────────────────────────────────────── */
+
+  .abilitiesGrid {
+    display: flex;
+    gap: 0;
+    border: 1px solid #000;
+    margin-bottom: 4pt;
+  }
+
+  .abilityBox {
+    flex: 1;
+    text-align: center;
+    padding: 3pt 2pt;
+    border-right: 1px solid #000;
+  }
+
+  .abilityBox:last-child {
+    border-right: none;
+  }
+
+  .abilityAbbr {
+    display: block;
+    font-weight: bold;
+    font-size: 9pt;
+    letter-spacing: 0.5pt;
+  }
+
+  .abilityScore {
+    display: block;
+    font-size: 14pt;
+    font-weight: bold;
+    line-height: 1.2;
+  }
+
+  .abilityCip {
+    display: block;
+    font-size: 7pt;
+    color: #555;
+  }
+
+  .currentValues {
+    display: flex;
+    gap: 16pt;
+    font-size: 9pt;
+    margin-bottom: 4pt;
+  }
+
+  .currentValueItem {
+    display: inline;
+  }
+
+  .currentValueLabel {
+    font-weight: bold;
+  }
+
+  /* ─── DERIVED STATS ROW ──────────────────────────────────────── */
+
+  .derivedGrid {
+    display: flex;
+    gap: 0;
+    border: 1px solid #000;
+    margin-bottom: 4pt;
+  }
+
+  .derivedBox {
+    flex: 1;
+    text-align: center;
+    padding: 3pt 2pt;
+    border-right: 1px solid #000;
+  }
+
+  .derivedBox:last-child {
+    border-right: none;
+  }
+
+  .derivedLabel {
+    display: block;
+    font-size: 7pt;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.3pt;
+  }
+
+  .derivedValue {
+    display: block;
+    font-size: 12pt;
+    font-weight: bold;
+    line-height: 1.3;
+  }
+
+  /* ─── WOUND BOXES ────────────────────────────────────────────── */
+
+  .woundsRow {
+    display: flex;
+    align-items: center;
+    gap: 4pt;
+    margin-top: 4pt;
+    margin-bottom: 4pt;
+  }
+
+  .woundsLabel {
+    font-weight: bold;
+    font-size: 9pt;
+    margin-right: 4pt;
+  }
+
+  .woundBox {
+    display: inline-block;
+    width: 14pt;
+    height: 14pt;
+    border: 1.5px solid #000;
+    background: #fff;
+  }
+
+  .woundBoxFilled {
+    display: inline-block;
+    width: 14pt;
+    height: 14pt;
+    border: 1.5px solid #000;
+    background: #000;
+  }
+
+  /* ─── SKILLS TABLE ───────────────────────────────────────────── */
+
+  .skillsTable {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 9pt;
+  }
+
+  .skillsTable th {
+    text-align: left;
+    font-weight: bold;
+    border-bottom: 1.5px solid #000;
+    padding: 2pt 4pt;
+    font-size: 8pt;
+    text-transform: uppercase;
+    letter-spacing: 0.3pt;
+  }
+
+  .skillsTable td {
+    padding: 1.5pt 4pt;
+    border-bottom: 0.5px solid #ccc;
+  }
+
+  .skillsTable tr:last-child td {
+    border-bottom: 1px solid #000;
+  }
+
+  .skillType {
+    font-size: 7pt;
+    font-style: italic;
+    color: #555;
+  }
+
+  .skillLevel {
+    text-align: center;
+  }
+
+  .skillScore {
+    text-align: right;
+    font-weight: bold;
+  }
+
+  .skillBase {
+    text-align: right;
+  }
+
+  /* ─── TWO-COLUMN LAYOUT ──────────────────────────────────────── */
+
+  .twoColumns {
+    display: flex;
+    gap: 16pt;
+  }
+
+  .column {
+    flex: 1;
+  }
+
+  /* ─── EDGES & DRAWBACKS LISTS ────────────────────────────────── */
+
+  .edgeList {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .edgeList li {
+    padding: 1.5pt 0;
+    border-bottom: 0.5px solid #ddd;
+    font-size: 9pt;
+  }
+
+  .edgeList li:last-child {
+    border-bottom: none;
+  }
+
+  .edgeName {
+    font-weight: bold;
+  }
+
+  .edgePurchases {
+    font-size: 8pt;
+    color: #555;
+  }
+
+  .edgeDesc {
+    font-size: 8pt;
+    color: #333;
+    font-style: italic;
+  }
+
+  /* ─── THE ART ────────────────────────────────────────────────── */
+
+  .disciplineTable {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 9pt;
+    margin-bottom: 6pt;
+  }
+
+  .disciplineTable th {
+    text-align: left;
+    font-weight: bold;
+    border-bottom: 1.5px solid #000;
+    padding: 2pt 4pt;
+    font-size: 8pt;
+    text-transform: uppercase;
+    letter-spacing: 0.3pt;
+  }
+
+  .disciplineTable td {
+    padding: 1.5pt 4pt;
+    border-bottom: 0.5px solid #ccc;
+  }
+
+  .spellBlock {
+    margin-bottom: 4pt;
+    padding: 3pt 4pt;
+    border: 0.5px solid #aaa;
+    font-size: 9pt;
+    break-inside: avoid;
+  }
+
+  .spellName {
+    font-weight: bold;
+    font-size: 9pt;
+    margin-bottom: 1pt;
+  }
+
+  .spellDetail {
+    font-size: 8pt;
+    color: #333;
+  }
+
+  .psionicItem {
+    padding: 1.5pt 0;
+    border-bottom: 0.5px solid #ddd;
+    font-size: 9pt;
+  }
+
+  .psionicName {
+    font-weight: bold;
+  }
+
+  .psionicLevel {
+    font-size: 8pt;
+    color: #555;
+  }
+
+  /* ─── EQUIPMENT ──────────────────────────────────────────────── */
+
+  .equipmentList {
+    list-style: disc;
+    margin: 0 0 0 14pt;
+    padding: 0;
+    font-size: 9pt;
+  }
+
+  .equipmentList li {
+    padding: 1pt 0;
+  }
+
+  .equipmentNotes {
+    font-size: 8pt;
+    color: #555;
+    font-style: italic;
+  }
+
+  /* ─── BACKGROUND & NOTES ─────────────────────────────────────── */
+
+  .backgroundText {
+    font-size: 9pt;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    border: 0.5px solid #ccc;
+    padding: 4pt 6pt;
+    min-height: 30pt;
+  }
+
+  .notesText {
+    font-size: 9pt;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    border: 0.5px solid #ccc;
+    padding: 4pt 6pt;
+    min-height: 20pt;
+    margin-top: 4pt;
+  }
+
+  /* ─── EMPTY STATE ────────────────────────────────────────────── */
+
+  .emptyMessage {
+    font-size: 8pt;
+    color: #999;
+    font-style: italic;
+  }
+
+  /* ─── FOOTER ─────────────────────────────────────────────────── */
+
+  .footer {
+    text-align: center;
+    font-size: 7pt;
+    color: #999;
+    border-top: 1px solid #ccc;
+    padding-top: 4pt;
+    margin-top: 8pt;
+  }
+}

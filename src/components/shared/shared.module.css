@@ -1,0 +1,396 @@
+.tabPage {
+  max-width: 900px;
+}
+
+.tabTitle {
+  font-size: var(--font-size-xl);
+  font-weight: 600;
+  margin-bottom: var(--space-lg);
+  color: var(--text-primary);
+}
+
+.tabDescription {
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+  margin-bottom: var(--space-lg);
+}
+
+/* Ability score input */
+.abilityRow {
+  display: grid;
+  grid-template-columns: 100px 1fr 70px 60px auto;
+  gap: var(--space-md);
+  align-items: center;
+  padding: var(--space-sm) 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.abilityLabel {
+  font-weight: 600;
+  font-size: var(--font-size-sm);
+}
+
+.abilityAbbr {
+  color: var(--accent);
+  margin-right: var(--space-xs);
+}
+
+.abilityName {
+  color: var(--text-secondary);
+}
+
+.abilitySlider {
+  width: 100%;
+  accent-color: var(--accent);
+  height: 4px;
+}
+
+.abilityInput {
+  width: 70px;
+  padding: var(--space-xs) var(--space-sm);
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+  font-size: var(--font-size-sm);
+}
+
+.abilityInput:focus {
+  border-color: var(--accent);
+  outline: none;
+}
+
+.abilityCip {
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Form fields */
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  margin-bottom: var(--space-md);
+}
+
+.formLabel {
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.formInput {
+  padding: var(--space-sm) var(--space-md);
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  font-size: var(--font-size-sm);
+  transition: border-color var(--transition-fast);
+}
+
+.formInput:focus {
+  border-color: var(--accent);
+  outline: none;
+}
+
+.formTextarea {
+  composes: formInput;
+  min-height: 100px;
+  resize: vertical;
+}
+
+.formSelect {
+  composes: formInput;
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236e6a80' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 36px;
+}
+
+.formRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-md);
+}
+
+/* Skill row */
+.skillRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-sm);
+  transition: background var(--transition-fast);
+}
+
+.skillRow:hover {
+  background: var(--bg-hover);
+}
+
+.skillInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.skillName {
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+}
+
+.skillBase {
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.skillScore {
+  font-size: var(--font-size-sm);
+  color: var(--text-primary);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  min-width: 30px;
+  text-align: right;
+}
+
+.skillCip {
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+  min-width: 40px;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Level selector */
+.levelSelector {
+  display: flex;
+  gap: 2px;
+}
+
+.levelButton {
+  padding: 2px 8px;
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+  color: var(--text-muted);
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  transition: all var(--transition-fast);
+}
+
+.levelButton:hover {
+  color: var(--text-secondary);
+  border-color: var(--border-strong);
+}
+
+.levelButtonActive {
+  color: var(--text-primary);
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+/* Search input */
+.searchInput {
+  width: 100%;
+  padding: var(--space-sm) var(--space-md);
+  padding-left: 36px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  font-size: var(--font-size-sm);
+  transition: border-color var(--transition-fast);
+}
+
+.searchInput:focus {
+  border-color: var(--accent);
+  outline: none;
+}
+
+.searchWrapper {
+  position: relative;
+  margin-bottom: var(--space-md);
+}
+
+.searchIcon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+}
+
+/* Add/Remove buttons */
+.addButton {
+  padding: var(--space-xs) var(--space-md);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  color: var(--accent);
+  background: var(--accent-subtle);
+  border-radius: var(--radius-sm);
+  transition: all var(--transition-fast);
+}
+
+.addButton:hover {
+  background: var(--accent);
+  color: var(--text-inverse);
+}
+
+.removeButton {
+  padding: var(--space-xs);
+  color: var(--text-muted);
+  border-radius: var(--radius-sm);
+  transition: all var(--transition-fast);
+}
+
+.removeButton:hover {
+  color: var(--danger);
+  background: rgba(194, 58, 58, 0.1);
+}
+
+/* Catalog item */
+.catalogItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--bg-secondary);
+  margin-bottom: var(--space-xs);
+}
+
+.catalogItemName {
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+}
+
+.catalogItemDesc {
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.catalogItemCost {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Stat cards */
+.statGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: var(--space-md);
+}
+
+.statCard {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.statCardLabel {
+  font-size: var(--font-size-xs);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text-muted);
+}
+
+.statCardValue {
+  font-size: var(--font-size-2xl);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-primary);
+}
+
+.statCardFormula {
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+}
+
+/* Equipment list */
+.equipmentRow {
+  display: flex;
+  gap: var(--space-md);
+  align-items: center;
+  padding: var(--space-sm) 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.equipmentName {
+  flex: 1;
+}
+
+.equipmentNotes {
+  flex: 2;
+}
+
+/* Inline number input */
+.inlineNumber {
+  width: 60px;
+  padding: 2px var(--space-sm);
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+  font-size: var(--font-size-sm);
+}
+
+.inlineNumber:focus {
+  border-color: var(--accent);
+  outline: none;
+}
+
+/* Category header */
+.categoryHeader {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text-muted);
+  padding: var(--space-md) 0 var(--space-sm);
+  border-bottom: 1px solid var(--border);
+  margin-top: var(--space-md);
+}
+
+/* Toggle group */
+.toggleGroup {
+  display: inline-flex;
+  gap: 2px;
+  background: var(--bg-elevated);
+  border-radius: var(--radius-sm);
+  padding: 2px;
+  margin-bottom: var(--space-md);
+}
+
+.toggleOption {
+  padding: var(--space-xs) var(--space-md);
+  font-size: var(--font-size-sm);
+  border-radius: var(--radius-sm);
+  color: var(--text-muted);
+  transition: all var(--transition-fast);
+}
+
+.toggleOption:hover {
+  color: var(--text-secondary);
+}
+
+.toggleOptionActive {
+  color: var(--text-primary);
+  background: var(--accent);
+}

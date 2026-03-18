@@ -1,0 +1,275 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  animation: fadeIn 150ms ease;
+}
+
+.dialog {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-xl);
+  min-width: 340px;
+  max-width: 420px;
+  box-shadow: var(--shadow-lg);
+  animation: slideUp 200ms ease;
+  outline: none;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: var(--space-lg);
+}
+
+.rollName {
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.rollTarget {
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+  margin-top: var(--space-xs);
+}
+
+.diceArea {
+  text-align: center;
+  padding: var(--space-lg) 0;
+}
+
+.diceValue {
+  font-size: 4rem;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  transition: color 200ms ease;
+}
+
+.resultBadge {
+  display: inline-block;
+  margin-top: var(--space-md);
+  padding: var(--space-xs) var(--space-lg);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.resultC {
+  background: rgba(147, 51, 234, 0.2);
+  color: #a855f7;
+  border: 2px solid #a855f7;
+}
+
+.resultH {
+  background: rgba(59, 130, 246, 0.2);
+  color: #60a5fa;
+  border: 2px solid #60a5fa;
+}
+
+.resultM {
+  background: rgba(34, 197, 94, 0.2);
+  color: #4ade80;
+  border: 2px solid #4ade80;
+}
+
+.resultL {
+  background: rgba(234, 179, 8, 0.2);
+  color: #facc15;
+  border: 2px solid #facc15;
+}
+
+.resultF {
+  background: rgba(107, 114, 128, 0.2);
+  color: #9ca3af;
+  border: 2px solid #6b7280;
+}
+
+.resultB {
+  background: rgba(239, 68, 68, 0.3);
+  color: #f87171;
+  border: 2px solid #ef4444;
+}
+
+.modifierRow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-lg);
+}
+
+.modifierLabel {
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+}
+
+.modifierGroup {
+  display: inline-flex;
+  gap: 2px;
+  background: var(--bg-elevated);
+  border-radius: var(--radius-sm);
+  padding: 2px;
+}
+
+.modifierOption {
+  padding: 3px 10px;
+  font-size: var(--font-size-xs);
+  border-radius: var(--radius-sm);
+  color: var(--text-muted);
+  transition: all 100ms ease;
+}
+
+.modifierOption:hover {
+  color: var(--text-secondary);
+}
+
+.modifierOptionActive {
+  color: var(--text-primary);
+  background: var(--accent);
+}
+
+.breakdown {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-lg);
+  margin-top: var(--space-md);
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+}
+
+.breakdownItem {
+  text-align: center;
+}
+
+.breakdownValue {
+  font-weight: 600;
+  color: var(--text-secondary);
+  font-variant-numeric: tabular-nums;
+}
+
+.actions {
+  display: flex;
+  gap: var(--space-sm);
+  margin-top: var(--space-lg);
+}
+
+.rollButton {
+  flex: 1;
+  padding: var(--space-sm) var(--space-md);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--text-inverse);
+  background: var(--accent);
+  border-radius: var(--radius-sm);
+  transition: background 100ms ease;
+}
+
+.rollButton:hover:not(:disabled) {
+  background: var(--accent-hover);
+}
+
+.rollButton:disabled,
+.closeButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.closeButton {
+  padding: var(--space-sm) var(--space-md);
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  transition: all 100ms ease;
+}
+
+.closeButton:hover {
+  color: var(--text-primary);
+  border-color: var(--border-strong);
+}
+
+/* Dice roll trigger button */
+.diceButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 2px 8px;
+  height: 28px;
+  border-radius: var(--radius-sm);
+  color: var(--text-muted);
+  transition: all 100ms ease;
+  flex-shrink: 0;
+}
+
+.diceButton:hover {
+  color: var(--accent);
+  background: var(--accent-subtle);
+}
+
+.diceLabel {
+  font-size: var(--font-size-xs);
+  font-weight: 500;
+}
+
+/* Spin animation — numbers cycle with a blur/shake */
+.diceSpinning {
+  animation: diceSpin 100ms steps(2) infinite;
+  filter: blur(1px);
+}
+
+/* Land animation — pop + glow when final number revealed */
+.diceLanded {
+  animation: diceLand 400ms ease-out;
+}
+
+/* Result badge reveal */
+.resultReveal {
+  animation: badgeReveal 300ms ease-out;
+  animation-delay: 100ms;
+  animation-fill-mode: both;
+}
+
+/* Breakdown row reveal */
+.breakdownReveal {
+  animation: badgeReveal 300ms ease-out;
+  animation-delay: 250ms;
+  animation-fill-mode: both;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes diceSpin {
+  0%   { transform: translateY(-1px) scale(1.02); }
+  50%  { transform: translateY(1px) scale(0.98); }
+  100% { transform: translateY(-1px) scale(1.02); }
+}
+
+@keyframes diceLand {
+  0%   { transform: scale(1.3); opacity: 0.7; filter: blur(2px); }
+  40%  { transform: scale(0.95); opacity: 1; filter: blur(0); }
+  70%  { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+@keyframes badgeReveal {
+  0%   { opacity: 0; transform: translateY(8px) scale(0.9); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
