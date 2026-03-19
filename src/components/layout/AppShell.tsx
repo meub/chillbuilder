@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Menu } from 'lucide-react';
 import { Sidebar } from './Sidebar';
 import { TabBar, type TabId } from './TabBar';
 import { AbilitiesTab } from '../tabs/AbilitiesTab';
@@ -23,14 +24,21 @@ const TAB_COMPONENTS: Record<TabId, React.FC> = {
 
 export function AppShell() {
   const [activeTab, setActiveTab] = useState<TabId>('abilities');
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const TabContent = TAB_COMPONENTS[activeTab];
 
   return (
     <>
       <div className={styles.shell}>
-        <Sidebar />
+        {sidebarOpen && <div className={styles.overlay} onClick={() => setSidebarOpen(false)} />}
+        <Sidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
         <div className={styles.main}>
-          <TabBar activeTab={activeTab} onTabChange={setActiveTab} />
+          <div className={styles.topBar}>
+            <button className={styles.menuButton} onClick={() => setSidebarOpen(true)}>
+              <Menu size={20} />
+            </button>
+            <TabBar activeTab={activeTab} onTabChange={(tab) => { setActiveTab(tab); setSidebarOpen(false); }} />
+          </div>
           <div className={styles.content}>
             <TabContent />
           </div>

@@ -3,6 +3,7 @@ import { useActiveCharacter } from '../../hooks/useActiveCharacter';
 import { useCharacterStore } from '../../store/useCharacterStore';
 import { useRollDialog } from '../../hooks/useRollDialog';
 import { RollDialog } from '../shared/RollDialog';
+import { Tooltip } from '../shared/Tooltip';
 import { abilities } from '../../data/abilities';
 import type { AbilityKey } from '../../models/types';
 import styles from '../shared/shared.module.css';
@@ -30,10 +31,12 @@ export function AbilitiesTab() {
           const cipCost = Math.floor(value / 5);
           return (
             <div key={ability.key} className={styles.abilityRow}>
-              <div className={styles.abilityLabel}>
-                <span className={styles.abilityAbbr}>{ability.abbr}</span>
-                <span className={styles.abilityName}>{ability.name}</span>
-              </div>
+              <Tooltip content={ability.description} side="right">
+                <div className={styles.abilityLabel}>
+                  <span className={styles.abilityAbbr}>{ability.abbr}</span>
+                  <span className={styles.abilityName}>{ability.name}</span>
+                </div>
+              </Tooltip>
               <input
                 type="range"
                 className={styles.abilitySlider}

@@ -12,13 +12,8 @@
 }
 
 @media print {
-  /* Hide the app chrome — sidebar, tabs, main content */
-  body > *:not(.printRoot) {
-    display: none !important;
-  }
-
   .printSheet {
-    display: block;
+    display: block !important;
     background: #fff;
     color: #000;
     font-family: "Times New Roman", "Georgia", serif;

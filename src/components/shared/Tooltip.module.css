@@ -1,0 +1,22 @@
+.content {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  padding: var(--space-xs) var(--space-sm);
+  font-size: var(--font-size-xs);
+  color: var(--text-secondary);
+  max-width: 280px;
+  line-height: 1.4;
+  z-index: 200;
+  box-shadow: var(--shadow-md);
+  animation: tooltipFadeIn 150ms ease;
+}
+
+.arrow {
+  fill: var(--bg-elevated);
+}
+
+@keyframes tooltipFadeIn {
+  from { opacity: 0; transform: translateY(2px); }
+  to { opacity: 1; transform: translateY(0); }
+}

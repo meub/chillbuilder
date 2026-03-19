@@ -10,21 +10,34 @@ export function computeAbilitiesCip(abilities: Abilities): number {
   return Object.values(abilities).reduce((sum, score) => sum + Math.floor(score / 5), 0);
 }
 
-/** CIP cost for a single skill */
-export function computeSkillCip(skill: CharacterSkill): number {
+/** CIP cost for a single skill, with optional encouraged/discouraged modifier */
+export function computeSkillCip(
+  skill: CharacterSkill,
+  encouraged: string[] = [],
+  discouraged: string[] = [],
+): number {
+  let baseCost: number;
   if (skill.isBroad) {
     const def = broadSkills.find(s => s.id === skill.skillId);
     if (!def) return 0;
-    return broadSkillCost(def.costs, skill.level);
+    baseCost = broadSkillCost(def.costs, skill.level);
+  } else {
+    const def = narrowSkills.find(s => s.id === skill.skillId);
+    if (!def) return 0;
+    baseCost = narrowSkillCost(skill.level, !!def.isMartialArts);
   }
-  const def = narrowSkills.find(s => s.id === skill.skillId);
-  if (!def) return 0;
-  return narrowSkillCost(skill.level, !!def.isMartialArts);
+  if (encouraged.includes(skill.skillId)) return Math.ceil(baseCost / 2);
+  if (discouraged.includes(skill.skillId)) return baseCost * 2;
+  return baseCost;
 }
 
 /** Total CIP cost for all skills */
-export function computeSkillsCip(skills: CharacterSkill[]): number {
-  return skills.reduce((sum, skill) => sum + computeSkillCip(skill), 0);
+export function computeSkillsCip(
+  skills: CharacterSkill[],
+  encouraged: string[] = [],
+  discouraged: string[] = [],
+): number {
+  return skills.reduce((sum, skill) => sum + computeSkillCip(skill, encouraged, discouraged), 0);
 }
 
 /** Total CIP cost for edges */
@@ -124,7 +137,7 @@ export interface CipBreakdown {
 
 export function computeCipBreakdown(character: Character, disciplineSchoolMap: Record<string, ArtSchool>): CipBreakdown {
   const abilitiesCip = computeAbilitiesCip(character.abilities);
-  const skillsCip = computeSkillsCip(character.skills);
+  const skillsCip = computeSkillsCip(character.skills, character.encouragedSkills ?? [], character.discouragedSkills ?? []);
   const edgesCip = computeEdgesCip(character.edges);
   const drawbacksBonus = computeDrawbacksBonus(character.drawbacks);
   const disciplinesCip = computeDisciplinesCipFull(character.disciplines, disciplineSchoolMap);

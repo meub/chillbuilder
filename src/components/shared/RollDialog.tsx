@@ -69,6 +69,19 @@ export function RollDialog({ open, onOpenChange, name, baseTarget }: RollDialogP
     spinRef.current = requestAnimationFrame(tick);
   }, [baseTarget, modifier]);
 
+  // Enter key to roll
+  useEffect(() => {
+    if (!open) return;
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === 'Enter' && !spinning) {
+        e.preventDefault();
+        handleRoll();
+      }
+    };
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
+  }, [open, spinning, handleRoll]);
+
   const handleOpenChange = (next: boolean) => {
     if (!next) {
       setResult(null);

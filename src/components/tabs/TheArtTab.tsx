@@ -3,6 +3,8 @@ import { Plus, X } from 'lucide-react';
 import { nanoid } from 'nanoid';
 import { useActiveCharacter } from '../../hooks/useActiveCharacter';
 import { useCharacterStore } from '../../store/useCharacterStore';
+import { useUndoToast } from '../../hooks/useUndoToast';
+import { UndoToast } from '../shared/UndoToast';
 import { disciplines, schoolPrerequisites, schoolScoreAbilities } from '../../data/disciplines';
 import { psionicDisciplines } from '../../data/psionics';
 import {
@@ -38,6 +40,7 @@ export function TheArtTab() {
   const updateSpell = useCharacterStore(s => s.updateSpell);
   const removeSpell = useCharacterStore(s => s.removeSpell);
   const [subTab, setSubTab] = useState<SubTab>('disciplines');
+  const undoToast = useUndoToast();
 
   if (!character) return null;
 
@@ -68,6 +71,7 @@ export function TheArtTab() {
           addDiscipline={addDiscipline}
           updateDisciplineLevel={updateDisciplineLevel}
           removeDiscipline={removeDiscipline}
+          showUndo={undoToast.show}
         />
       )}
 
@@ -87,20 +91,26 @@ export function TheArtTab() {
           ownedIds={ownedPsionicIds}
           addPsionic={addPsionic}
           removePsionic={removePsionic}
+          showUndo={undoToast.show}
         />
+      )}
+
+      {undoToast.visible && (
+        <UndoToast message={undoToast.message} onUndo={undoToast.undo} onDismiss={undoToast.dismiss} />
       )}
     </div>
   );
 }
 
 function DisciplinesSection({
-  character, ownedIds, addDiscipline, updateDisciplineLevel, removeDiscipline,
+  character, ownedIds, addDiscipline, updateDisciplineLevel, removeDiscipline, showUndo,
 }: {
   character: NonNullable<ReturnType<typeof useActiveCharacter>>;
   ownedIds: Set<string>;
   addDiscipline: (id: string, level: SkillLevel) => void;
   updateDisciplineLevel: (id: string, level: SkillLevel) => void;
   removeDiscipline: (id: string) => void;
+  showUndo: (message: string, undoAction: () => void) => void;
 }) {
   const schools: ArtSchool[] = ['communicative', 'incorporeal', 'protective', 'restorative'];
 
@@ -131,7 +141,11 @@ function DisciplinesSection({
                     </button>
                   ))}
                 </div>
-                <button className={styles.removeButton} onClick={() => removeDiscipline(charDisc.disciplineId)}>
+                <button className={styles.removeButton} onClick={() => {
+                  const saved = charDisc;
+                  removeDiscipline(charDisc.disciplineId);
+                  showUndo(`Removed ${def.name}`, () => addDiscipline(saved.disciplineId, saved.level));
+                }}>
                   <X size={14} />
                 </button>
               </div>
@@ -294,13 +308,14 @@ function PotencySlider({ label, value, table, onChange }: { label: string; value
 }
 
 function PsionicsSection({
-  character, hasPsionicEdge, ownedIds, addPsionic, removePsionic,
+  character, hasPsionicEdge, ownedIds, addPsionic, removePsionic, showUndo,
 }: {
   character: NonNullable<ReturnType<typeof useActiveCharacter>>;
   hasPsionicEdge: boolean;
   ownedIds: Set<string>;
   addPsionic: (id: string, level?: SkillLevel) => void;
   removePsionic: (id: string) => void;
+  showUndo: (message: string, undoAction: () => void) => void;
 }) {
   if (!hasPsionicEdge) {
     return (
@@ -330,7 +345,11 @@ function PsionicsSection({
                     ? `${charPsi.level === 'S' ? 4 : charPsi.level === 'T' ? 6 : 8} CIP`
                     : `${def.cost} CIP`}
                 </div>
-                <button className={styles.removeButton} onClick={() => removePsionic(charPsi.psionicId)}>
+                <button className={styles.removeButton} onClick={() => {
+                  const def = psionicDisciplines.find(p => p.id === charPsi.psionicId);
+                  removePsionic(charPsi.psionicId);
+                  showUndo(`Removed ${def?.name ?? 'discipline'}`, () => addPsionic(charPsi.psionicId, charPsi.level));
+                }}>
                   <X size={14} />
                 </button>
               </div>

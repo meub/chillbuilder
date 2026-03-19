@@ -1,16 +1,23 @@
-import { ArrowLeft, Pencil, Printer } from 'lucide-react';
+import { ArrowLeft, Pencil, Printer, Sun, Moon, X } from 'lucide-react';
 import { useState, useRef, useEffect } from 'react';
 import { useActiveCharacter } from '../../hooks/useActiveCharacter';
 import { useCipCalculation } from '../../hooks/useCipCalculation';
 import { useCharacterStore } from '../../store/useCharacterStore';
+import { useTheme } from '../../hooks/useTheme';
 import { computeAllDerived } from '../../utils/derived';
 import styles from './Sidebar.module.css';
 
-export function Sidebar() {
+interface SidebarProps {
+  open?: boolean;
+  onClose?: () => void;
+}
+
+export function Sidebar({ open, onClose }: SidebarProps) {
   const character = useActiveCharacter();
   const cip = useCipCalculation(character);
   const selectCharacter = useCharacterStore(s => s.selectCharacter);
 
+  const { theme, toggle: toggleTheme } = useTheme();
   const updateName = useCharacterStore(s => s.updateName);
   const [editing, setEditing] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -26,11 +33,17 @@ export function Sidebar() {
   const budgetClass = remaining < 0 ? styles.budgetOver : remaining < 5 ? styles.budgetWarn : styles.budgetOk;
 
   return (
-    <aside className={styles.sidebar}>
+    <aside className={`${styles.sidebar} ${open ? styles.sidebarOpen : ''}`}>
       <div>
         <div className={styles.logo}>Chillbuilder</div>
         <div className={styles.logoSub}>Chill 2nd Edition</div>
       </div>
+
+      {onClose && (
+        <button className={styles.closeButton} onClick={onClose}>
+          <X size={20} />
+        </button>
+      )}
 
       <button className={styles.backButton} onClick={() => selectCharacter(null)}>
         <ArrowLeft size={16} />
@@ -138,6 +151,11 @@ export function Sidebar() {
       </div>
 
       <div className={styles.divider} />
+
+      <button className={styles.printButton} onClick={toggleTheme}>
+        {theme === 'dark' ? <Sun size={14} /> : <Moon size={14} />}
+        {theme === 'dark' ? 'Light Theme' : 'Dark Theme'}
+      </button>
 
       <button className={styles.printButton} onClick={() => window.print()}>
         <Printer size={14} />

@@ -1,7 +1,8 @@
 import { useRef } from 'react';
-import { Plus, Trash2, Upload } from 'lucide-react';
+import { Plus, Trash2, Upload, Copy } from 'lucide-react';
 import { useCharacterStore } from '../../store/useCharacterStore';
 import { importCharacter, readFileAsText } from '../../utils/export-import';
+import { computeAbilitiesCip } from '../../utils/cip';
 import type { CipBudget } from '../../models/types';
 import styles from './CharacterList.module.css';
 
@@ -10,6 +11,7 @@ export function CharacterList() {
   const selectCharacter = useCharacterStore(s => s.selectCharacter);
   const createCharacter = useCharacterStore(s => s.createCharacter);
   const deleteCharacter = useCharacterStore(s => s.deleteCharacter);
+  const duplicateCharacter = useCharacterStore(s => s.duplicateCharacter);
   const importChar = useCharacterStore(s => s.importCharacter);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -59,9 +61,18 @@ export function CharacterList() {
               <div className={styles.cardName}>{char.name || 'Unnamed'}</div>
               <div className={styles.cardMeta}>
                 {char.background.profession || 'No profession'} — {char.skillSystem} skills
+                — {char.skills.length} skill{char.skills.length !== 1 ? 's' : ''}
+                — Abilities: {computeAbilitiesCip(char.abilities)} CIP
               </div>
             </div>
             <span className={styles.cardBudget}>{char.cipBudget} CIP</span>
+            <button
+              className={styles.deleteButton}
+              onClick={(e) => { e.stopPropagation(); duplicateCharacter(char.id); }}
+              title="Duplicate character"
+            >
+              <Copy size={16} />
+            </button>
             <button
               className={styles.deleteButton}
               onClick={(e) => handleDelete(e, char.id)}

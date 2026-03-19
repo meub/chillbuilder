@@ -42,3 +42,10 @@ body {
   background-color: var(--accent-subtle);
   color: var(--text-primary);
 }
+
+@media print {
+  body {
+    background: #fff !important;
+    color: #000 !important;
+  }
+}

@@ -163,6 +163,9 @@ export interface Background {
 /** CIP budget tier */
 export type CipBudget = 85 | 100 | 125;
 
+/** Luck mode per Companion */
+export type LuckMode = 'gritty' | 'standard' | 'wild';
+
 /** Full character */
 export interface Character {
   id: string;
@@ -181,7 +184,10 @@ export interface Character {
   wounds: boolean[];
   equipment: EquipmentItem[];
   luckPoints: number;
+  luckMode: LuckMode;
   cipBudget: CipBudget;
+  encouragedSkills: string[];   // skill IDs with halved CIP cost
+  discouragedSkills: string[];  // skill IDs with doubled CIP cost
   notes: string;
   createdAt: number;
   updatedAt: number;

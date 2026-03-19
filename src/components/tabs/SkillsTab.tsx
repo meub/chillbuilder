@@ -1,12 +1,16 @@
 import { useState, useMemo } from 'react';
-import { Search, Plus, X, Dices } from 'lucide-react';
+import { Search, Plus, X, Dices, ChevronUp, ChevronDown } from 'lucide-react';
 import { useActiveCharacter } from '../../hooks/useActiveCharacter';
 import { useCharacterStore } from '../../store/useCharacterStore';
 import { useRollDialog } from '../../hooks/useRollDialog';
+import { useUndoToast } from '../../hooks/useUndoToast';
 import { RollDialog } from '../shared/RollDialog';
+import { UndoToast } from '../shared/UndoToast';
+import { Tooltip } from '../shared/Tooltip';
 import { narrowSkills } from '../../data/skills-narrow';
 import { broadSkills } from '../../data/skills-broad';
-import { computeBaseScore, computeSkillScore, narrowSkillCost, broadSkillCost } from '../../utils/skills';
+import { computeBaseScore, computeSkillScore } from '../../utils/skills';
+import { computeSkillCip } from '../../utils/cip';
 import type { SkillLevel, SkillSystem, SkillDefinition, BroadSkillDefinition } from '../../models/types';
 import styles from '../shared/shared.module.css';
 import rollStyles from '../shared/RollDialog.module.css';
@@ -20,7 +24,10 @@ export function SkillsTab() {
   const addSkill = useCharacterStore(s => s.addSkill);
   const updateSkillLevel = useCharacterStore(s => s.updateSkillLevel);
   const removeSkill = useCharacterStore(s => s.removeSkill);
+  const toggleEncouraged = useCharacterStore(s => s.toggleEncouraged);
+  const toggleDiscouraged = useCharacterStore(s => s.toggleDiscouraged);
   const roll = useRollDialog();
+  const undoToast = useUndoToast();
   const [search, setSearch] = useState('');
   const [mixedView, setMixedView] = useState<'broad' | 'narrow'>('narrow');
 
@@ -80,7 +87,7 @@ export function SkillsTab() {
       </div>
 
       {/* Owned skills */}
-      <OwnedSkills character={character} updateSkillLevel={updateSkillLevel} removeSkill={removeSkill} openRoll={roll.openRoll} />
+      <OwnedSkills character={character} updateSkillLevel={updateSkillLevel} removeSkill={removeSkill} addSkill={addSkill} openRoll={roll.openRoll} showUndo={undoToast.show} toggleEncouraged={toggleEncouraged} toggleDiscouraged={toggleDiscouraged} />
 
       {/* Add skills */}
       <div className={styles.categoryHeader} style={{ marginTop: 24 }}>Add Skills</div>
@@ -127,6 +134,14 @@ export function SkillsTab() {
         name={roll.name}
         baseTarget={roll.target}
       />
+
+      {undoToast.visible && (
+        <UndoToast
+          message={undoToast.message}
+          onUndo={undoToast.undo}
+          onDismiss={undoToast.dismiss}
+        />
+      )}
     </div>
   );
 }
@@ -135,13 +150,23 @@ function OwnedSkills({
   character,
   updateSkillLevel,
   removeSkill,
+  addSkill,
   openRoll,
+  showUndo,
+  toggleEncouraged,
+  toggleDiscouraged,
 }: {
   character: NonNullable<ReturnType<typeof useActiveCharacter>>;
   updateSkillLevel: (id: string, level: SkillLevel) => void;
   removeSkill: (id: string) => void;
+  addSkill: (skillId: string, isBroad: boolean, level: SkillLevel) => void;
   openRoll: (name: string, target: number) => void;
+  showUndo: (message: string, undoAction: () => void) => void;
+  toggleEncouraged: (skillId: string) => void;
+  toggleDiscouraged: (skillId: string) => void;
 }) {
+  const encouraged = character.encouragedSkills ?? [];
+  const discouraged = character.discouragedSkills ?? [];
   if (character.skills.length === 0) return null;
 
   return (
@@ -155,18 +180,33 @@ function OwnedSkills({
 
         const baseScore = computeBaseScore(character.abilities, def.formula);
         const skillScore = computeSkillScore(baseScore, charSkill.level);
-        const cost = charSkill.isBroad
-          ? broadSkillCost((def as BroadSkillDefinition).costs, charSkill.level)
-          : narrowSkillCost(charSkill.level, 'isMartialArts' in def && !!def.isMartialArts);
+        const cost = computeSkillCip(charSkill, encouraged, discouraged);
+        const isEncouraged = encouraged.includes(charSkill.skillId);
+        const isDiscouraged = discouraged.includes(charSkill.skillId);
+        const notes: string[] = [];
+        if ('usesCurrentSta' in def && def.usesCurrentSta) notes.push('Uses Current STA');
+        if ('isInfo' in def && def.isInfo) notes.push('Information skill');
+        if ('unskilled' in def && def.unskilled !== undefined) notes.push(`Unskilled: +${def.unskilled}`);
+        if ('isMartialArts' in def && def.isMartialArts) notes.push('Martial Arts (higher CIP cost)');
+        const specialNote = notes.length > 0 ? notes.join(' · ') : null;
 
         return (
           <div key={charSkill.skillId} className={styles.skillRow}>
             <div className={styles.skillInfo}>
-              <div className={styles.skillName}>
-                {def.name}
-                {charSkill.isBroad && <span style={{ color: 'var(--info)', marginLeft: 6, fontSize: '0.7rem' }}>BROAD</span>}
-              </div>
-              <div className={styles.skillBase}>Base: {baseScore}</div>
+              <Tooltip content={
+                <>
+                  Formula: {def.formula.length === 1 ? def.formula[0] : `(${def.formula.join(' + ')}) / ${def.formula.length}`}
+                  {specialNote && <><br />{specialNote}</>}
+                </>
+              }>
+                <div className={styles.skillName}>
+                  {def.name}
+                  {charSkill.isBroad && <span style={{ color: 'var(--info)', marginLeft: 6, fontSize: '0.7rem' }}>BROAD</span>}
+                  {isEncouraged && <span style={{ color: 'var(--success)', marginLeft: 6, fontSize: '0.7rem' }}>½ CIP</span>}
+                  {isDiscouraged && <span style={{ color: 'var(--danger)', marginLeft: 6, fontSize: '0.7rem' }}>2× CIP</span>}
+                </div>
+              </Tooltip>
+              <div className={styles.skillBase}>Base: {baseScore}{specialNote ? ` — ${specialNote}` : ''}</div>
             </div>
             <div className={styles.levelSelector}>
               {SKILL_LEVELS.map(lvl => (
@@ -190,10 +230,30 @@ function OwnedSkills({
               <span className={rollStyles.diceLabel}>Roll</span>
             </button>
             <div className={styles.skillCip}>{cost} CIP</div>
+            <Tooltip content="Toggle encouraged (half CIP cost)">
+              <button
+                className={styles.removeButton}
+                onClick={() => toggleEncouraged(charSkill.skillId)}
+                style={{ color: isEncouraged ? 'var(--success)' : undefined }}
+              >
+                <ChevronUp size={14} />
+              </button>
+            </Tooltip>
+            <Tooltip content="Toggle discouraged (double CIP cost)">
+              <button
+                className={styles.removeButton}
+                onClick={() => toggleDiscouraged(charSkill.skillId)}
+                style={{ color: isDiscouraged ? 'var(--danger)' : undefined }}
+              >
+                <ChevronDown size={14} />
+              </button>
+            </Tooltip>
             <button
               className={styles.removeButton}
               onClick={() => {
-                if (confirm(`Remove ${def.name}?`)) removeSkill(charSkill.skillId);
+                const { skillId, isBroad, level } = charSkill;
+                removeSkill(skillId);
+                showUndo(`Removed ${def.name}`, () => addSkill(skillId, isBroad, level));
               }}
             >
               <X size={14} />
@@ -214,10 +274,13 @@ function BroadSkillCatalog({
   character: NonNullable<ReturnType<typeof useActiveCharacter>>;
   addSkill: (id: string, isBroad: boolean, level: SkillLevel) => void;
 }) {
+  const ownedNarrowIds = new Set(character.skills.filter(s => !s.isBroad).map(s => s.skillId));
+
   return (
     <>
       {skills.map(def => {
         const baseScore = computeBaseScore(character.abilities, def.formula);
+        const overlapping = def.encompasses.filter(id => ownedNarrowIds.has(id));
         return (
           <div key={def.id} className={styles.catalogItem}>
             <div>
@@ -225,6 +288,11 @@ function BroadSkillCatalog({
               <div className={styles.catalogItemDesc}>
                 Base: {baseScore} — Costs: {def.costs.join('/')} CIP (S/T/M)
               </div>
+              {overlapping.length > 0 && (
+                <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--warning)', marginTop: 2 }}>
+                  Overlaps with {overlapping.length} owned narrow skill{overlapping.length > 1 ? 's' : ''}
+                </div>
+              )}
             </div>
             <button className={styles.addButton} onClick={() => addSkill(def.id, true, 'S')}>
               <Plus size={14} style={{ display: 'inline', verticalAlign: 'middle', marginRight: 4 }} />

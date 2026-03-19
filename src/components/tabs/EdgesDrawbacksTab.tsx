@@ -2,6 +2,9 @@ import { useState } from 'react';
 import { Search, Plus, X, ChevronUp, ChevronDown } from 'lucide-react';
 import { useActiveCharacter } from '../../hooks/useActiveCharacter';
 import { useCharacterStore } from '../../store/useCharacterStore';
+import { useUndoToast } from '../../hooks/useUndoToast';
+import { Tooltip } from '../shared/Tooltip';
+import { UndoToast } from '../shared/UndoToast';
 import { edges } from '../../data/edges';
 import { drawbacks } from '../../data/drawbacks';
 import styles from '../shared/shared.module.css';
@@ -16,6 +19,7 @@ export function EdgesDrawbacksTab() {
   const removeDrawback = useCharacterStore(s => s.removeDrawback);
   const [edgeSearch, setEdgeSearch] = useState('');
   const [drawbackSearch, setDrawbackSearch] = useState('');
+  const undoToast = useUndoToast();
 
   if (!character) return null;
 
@@ -44,7 +48,9 @@ export function EdgesDrawbacksTab() {
             return (
               <div key={charEdge.edgeId} className={styles.skillRow}>
                 <div>
-                  <div className={styles.skillName}>{def.name}</div>
+                  <Tooltip content={def.description} side="right">
+                    <div className={styles.skillName}>{def.name}</div>
+                  </Tooltip>
                   <div className={styles.skillBase}>{def.description}</div>
                 </div>
                 {(def.maxPurchases === 0 || def.maxPurchases > 1) && (
@@ -84,7 +90,11 @@ export function EdgesDrawbacksTab() {
                   />
                 )}
                 <div className={styles.skillCip}>{cost} CIP</div>
-                <button className={styles.removeButton} onClick={() => removeEdge(charEdge.edgeId)}>
+                <button className={styles.removeButton} onClick={() => {
+                  const saved = { ...charEdge };
+                  removeEdge(charEdge.edgeId);
+                  undoToast.show(`Removed ${def.name}`, () => addEdge(saved.edgeId, saved.purchases, saved.customCost));
+                }}>
                   <X size={14} />
                 </button>
               </div>
@@ -129,7 +139,9 @@ export function EdgesDrawbacksTab() {
             return (
               <div key={charDb.drawbackId} className={styles.skillRow}>
                 <div>
-                  <div className={styles.skillName}>{def.name}</div>
+                  <Tooltip content={def.description} side="right">
+                    <div className={styles.skillName}>{def.name}</div>
+                  </Tooltip>
                   <div className={styles.skillBase}>{def.description}</div>
                 </div>
                 {(def.maxPurchases === 0 || def.maxPurchases > 1) && (
@@ -169,7 +181,11 @@ export function EdgesDrawbacksTab() {
                   />
                 )}
                 <div className={styles.skillCip}>+{bonus} CIP</div>
-                <button className={styles.removeButton} onClick={() => removeDrawback(charDb.drawbackId)}>
+                <button className={styles.removeButton} onClick={() => {
+                  const saved = { ...charDb };
+                  removeDrawback(charDb.drawbackId);
+                  undoToast.show(`Removed ${def.name}`, () => addDrawback(saved.drawbackId, saved.purchases, saved.customBonus));
+                }}>
                   <X size={14} />
                 </button>
               </div>
@@ -202,6 +218,10 @@ export function EdgesDrawbacksTab() {
           </div>
         </div>
       ))}
+
+      {undoToast.visible && (
+        <UndoToast message={undoToast.message} onUndo={undoToast.undo} onDismiss={undoToast.dismiss} />
+      )}
     </div>
   );
 }

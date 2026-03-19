@@ -16,6 +16,43 @@
   overflow-y: auto;
 }
 
+.topBar {
+  display: flex;
+  align-items: center;
+}
+
+.menuButton {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  color: var(--text-secondary);
+  flex-shrink: 0;
+}
+
+.menuButton:hover {
+  color: var(--text-primary);
+}
+
+.overlay {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .menuButton {
+    display: flex;
+  }
+
+  .overlay {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 40;
+  }
+}
+
 @media print {
   .shell {
     display: none;

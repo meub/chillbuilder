@@ -37,6 +37,9 @@ export function PrintSheet() {
 
   const derived = computeAllDerived(character);
   const isOverBudget = cipBreakdown.total > character.cipBudget;
+  const luckMode = character.luckMode ?? 'standard';
+  const encouragedSkills = character.encouragedSkills ?? [];
+  const discouragedSkills = character.discouragedSkills ?? [];
 
   // Build skill rows with computed scores
   const skillRows = character.skills.map(cs => {
@@ -189,6 +192,15 @@ export function PrintSheet() {
             CIPs: {cipBreakdown.total} / {character.cipBudget}
           </span>
           {' '}(Abilities {cipBreakdown.abilities} | Skills {cipBreakdown.skills} | Edges {cipBreakdown.edges} | Drawbacks -{cipBreakdown.drawbacks} | Art {cipBreakdown.disciplines} | Spells {cipBreakdown.spells} | Psionics {cipBreakdown.psionics})
+          {luckMode !== 'standard' && (
+            <span> | Luck: {luckMode}</span>
+          )}
+          {encouragedSkills.length > 0 && (
+            <span> | Encouraged skills: {encouragedSkills.length}</span>
+          )}
+          {discouragedSkills.length > 0 && (
+            <span> | Discouraged skills: {discouragedSkills.length}</span>
+          )}
         </div>
       </div>
 

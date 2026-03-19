@@ -76,6 +76,16 @@ export function EquipmentTab() {
             Export JSON
           </button>
         </div>
+
+        <div className={styles.formGroup}>
+          <label className={styles.formLabel}>Print / PDF</label>
+          <button className={styles.addButton} onClick={() => window.print()}>
+            Save as PDF / Print
+          </button>
+          <span style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-muted)', marginTop: 4 }}>
+            Use "Save as PDF" in the print dialog to generate a PDF file
+          </span>
+        </div>
       </div>
     </div>
   );

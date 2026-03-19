@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { nanoid } from 'nanoid';
 import type {
   Character,
   CipBudget,
@@ -9,6 +10,7 @@ import type {
   EquipmentItem,
   SkillLevel,
   SkillSystem,
+  LuckMode,
 } from '../models/types';
 import { createDefaultCharacter } from '../utils/character-factory';
 import { computeWoundBoxes } from '../utils/derived';
@@ -19,6 +21,7 @@ interface CharacterStore {
 
   // Character CRUD
   createCharacter: (budget?: CipBudget) => void;
+  duplicateCharacter: (id: string) => void;
   deleteCharacter: (id: string) => void;
   selectCharacter: (id: string | null) => void;
   importCharacter: (character: Character) => void;
@@ -72,8 +75,11 @@ interface CharacterStore {
 
   // Misc
   updateLuckPoints: (value: number) => void;
+  updateLuckMode: (mode: LuckMode) => void;
   updateCipBudget: (budget: CipBudget) => void;
   updateNotes: (notes: string) => void;
+  toggleEncouraged: (skillId: string) => void;
+  toggleDiscouraged: (skillId: string) => void;
 }
 
 function updateActive(state: CharacterStore, updater: (char: Character) => Partial<Character>): Partial<CharacterStore> {
@@ -99,6 +105,23 @@ export const useCharacterStore = create<CharacterStore>()(
           activeCharacterId: char.id,
         }));
       },
+
+      duplicateCharacter: (id) => set(state => {
+        const source = state.characters.find(c => c.id === id);
+        if (!source) return state;
+        const now = Date.now();
+        const copy: Character = {
+          ...structuredClone(source),
+          id: nanoid(),
+          name: `${source.name} (Copy)`,
+          createdAt: now,
+          updatedAt: now,
+        };
+        return {
+          characters: [...state.characters, copy],
+          activeCharacterId: copy.id,
+        };
+      }),
 
       deleteCharacter: (id) => set(state => ({
         characters: state.characters.filter(c => c.id !== id),
@@ -250,9 +273,31 @@ export const useCharacterStore = create<CharacterStore>()(
 
       updateLuckPoints: (value) => set(state => updateActive(state, () => ({ luckPoints: Math.max(0, value) }))),
 
+      updateLuckMode: (mode) => set(state => updateActive(state, () => ({ luckMode: mode }))),
+
       updateCipBudget: (budget) => set(state => updateActive(state, () => ({ cipBudget: budget }))),
 
       updateNotes: (notes) => set(state => updateActive(state, () => ({ notes }))),
+
+      toggleEncouraged: (skillId) => set(state => updateActive(state, (c) => {
+        const has = c.encouragedSkills?.includes(skillId);
+        return {
+          encouragedSkills: has
+            ? (c.encouragedSkills ?? []).filter(id => id !== skillId)
+            : [...(c.encouragedSkills ?? []), skillId],
+          discouragedSkills: (c.discouragedSkills ?? []).filter(id => id !== skillId),
+        };
+      })),
+
+      toggleDiscouraged: (skillId) => set(state => updateActive(state, (c) => {
+        const has = c.discouragedSkills?.includes(skillId);
+        return {
+          discouragedSkills: has
+            ? (c.discouragedSkills ?? []).filter(id => id !== skillId)
+            : [...(c.discouragedSkills ?? []), skillId],
+          encouragedSkills: (c.encouragedSkills ?? []).filter(id => id !== skillId),
+        };
+      })),
     }),
     {
       name: 'chillbuilder-characters',

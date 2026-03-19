@@ -25,3 +25,16 @@ export function narrowSkillCost(level: SkillLevel, isMartialArts: boolean): numb
 export function broadSkillCost(costs: [number, number, number], level: SkillLevel): number {
   return level === 'S' ? costs[0] : level === 'T' ? costs[1] : costs[2];
 }
+
+/**
+ * Strike Rank — derived from skill score for quick combat reference.
+ * L = score, M = score, H = floor(score/2), C = floor(score/4)
+ * Strike rank is the breakpoints: "L≤{score} M≤{score} H≤{h} C≤{c}"
+ */
+export function computeStrikeRank(skillScore: number): { l: number; h: number; c: number } {
+  return {
+    l: skillScore,
+    h: Math.floor(skillScore / 2),
+    c: Math.floor(skillScore / 4),
+  };
+}
