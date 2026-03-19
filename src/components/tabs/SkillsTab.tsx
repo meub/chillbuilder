@@ -18,6 +18,10 @@ import rollStyles from '../shared/RollDialog.module.css';
 const SKILL_LEVELS: SkillLevel[] = ['S', 'T', 'M'];
 const LEVEL_LABELS: Record<SkillLevel, string> = { S: 'Student', T: 'Teacher', M: 'Master' };
 
+// Lookup narrow skill names by ID for broad skill sub-skill display
+const narrowSkillNameMap: Record<string, string> = {};
+for (const s of narrowSkills) narrowSkillNameMap[s.id] = s.name;
+
 export function SkillsTab() {
   const character = useActiveCharacter();
   const updateSkillSystem = useCharacterStore(s => s.updateSkillSystem);
@@ -189,6 +193,9 @@ function OwnedSkills({
         if ('unskilled' in def && def.unskilled !== undefined) notes.push(`Unskilled: +${def.unskilled}`);
         if ('isMartialArts' in def && def.isMartialArts) notes.push('Martial Arts (higher CIP cost)');
         const specialNote = notes.length > 0 ? notes.join(' · ') : null;
+        const subSkillNames = charSkill.isBroad && 'encompasses' in def
+          ? (def as BroadSkillDefinition).encompasses.map(id => narrowSkillNameMap[id] || id)
+          : [];
 
         return (
           <div key={charSkill.skillId} className={styles.skillRow}>
@@ -197,6 +204,9 @@ function OwnedSkills({
                 <>
                   Formula: {def.formula.length === 1 ? def.formula[0] : `(${def.formula.join(' + ')}) / ${def.formula.length}`}
                   {specialNote && <><br />{specialNote}</>}
+                  {subSkillNames.length > 0 && (
+                    <><br /><strong>Covers:</strong> {subSkillNames.join(', ')}</>
+                  )}
                 </>
               }>
                 <div className={styles.skillName}>
@@ -207,6 +217,11 @@ function OwnedSkills({
                 </div>
               </Tooltip>
               <div className={styles.skillBase}>Base: {baseScore}{specialNote ? ` — ${specialNote}` : ''}</div>
+              {subSkillNames.length > 0 && (
+                <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-muted)', marginTop: 2 }}>
+                  {subSkillNames.join(', ')}
+                </div>
+              )}
             </div>
             <div className={styles.levelSelector}>
               {SKILL_LEVELS.map(lvl => (
@@ -287,6 +302,9 @@ function BroadSkillCatalog({
               <div className={styles.catalogItemName}>{def.name}</div>
               <div className={styles.catalogItemDesc}>
                 Base: {baseScore} — Costs: {def.costs.join('/')} CIP (S/T/M)
+              </div>
+              <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-muted)', marginTop: 2 }}>
+                {def.encompasses.map(id => narrowSkillNameMap[id] || id).join(', ')}
               </div>
               {overlapping.length > 0 && (
                 <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--warning)', marginTop: 2 }}>

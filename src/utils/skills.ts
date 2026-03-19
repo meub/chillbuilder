@@ -9,7 +9,7 @@ export function computeBaseScore(abilities: Abilities, formula: AbilityKey[]): n
 
 /** Skill score = base score + level bonus */
 export function computeSkillScore(baseScore: number, level: SkillLevel): number {
-  const bonus = level === 'S' ? 10 : level === 'T' ? 20 : 30;
+  const bonus = level === 'S' ? 15 : level === 'T' ? 30 : 50;
   return baseScore + bonus;
 }
 

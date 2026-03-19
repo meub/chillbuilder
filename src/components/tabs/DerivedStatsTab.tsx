@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Dices } from 'lucide-react';
 import { useActiveCharacter } from '../../hooks/useActiveCharacter';
 import { computeAllDerived } from '../../utils/derived';
@@ -9,7 +10,6 @@ import { narrowSkills } from '../../data/skills-narrow';
 import { broadSkills } from '../../data/skills-broad';
 import type { LuckMode } from '../../models/types';
 import styles from '../shared/shared.module.css';
-import rollStyles from '../shared/RollDialog.module.css';
 
 const LUCK_MODES: { mode: LuckMode; label: string; desc: string }[] = [
   { mode: 'gritty', label: 'Gritty', desc: 'Half LCK' },
@@ -59,10 +59,11 @@ export function DerivedStatsTab() {
     return { name: def.name, score: skillScore, sr, category: cat };
   }).filter(Boolean);
 
+  const [initiativeResult, setInitiativeResult] = useState<{ roll: number; total: number } | null>(null);
+
   const handleInitiativeRoll = () => {
     const rollVal = Math.floor(Math.random() * 10) + 1;
-    const initiative = 4 + rollVal;
-    roll.openRoll(`Initiative (4 + ${rollVal})`, initiative);
+    setInitiativeResult({ roll: rollVal, total: 4 + rollVal });
   };
 
   return (
@@ -102,19 +103,35 @@ export function DerivedStatsTab() {
         <div className={styles.statCard}>
           <span className={styles.statCardLabel}>Initiative</span>
           <span className={styles.statCardValue}>
-            4 + 1D10
+            {initiativeResult ? initiativeResult.total : '—'}
           </span>
+          {initiativeResult && (
+            <span className={styles.statCardFormula}>4 + {initiativeResult.roll} (1D10)</span>
+          )}
           <button
-            className={rollStyles.diceButton}
             onClick={handleInitiativeRoll}
-            style={{ marginTop: 4 }}
+            style={{
+              marginTop: 8,
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 6,
+              padding: '6px 14px',
+              fontSize: 'var(--font-size-sm)',
+              fontWeight: 500,
+              color: 'var(--accent)',
+              background: 'transparent',
+              border: '1px solid var(--accent)',
+              borderRadius: 'var(--radius-sm)',
+              cursor: 'pointer',
+              transition: 'all 100ms ease',
+            }}
           >
             <Dices size={16} />
-            <span className={rollStyles.diceLabel}>Roll Initiative</span>
+            {initiativeResult ? 'Re-roll' : 'Roll Initiative'}
           </button>
         </div>
 
-        <div className={styles.statCard}>
+        <div className={styles.statCard} style={{ gridColumn: 'span 2' }}>
           <span className={styles.statCardLabel}>Luck Points</span>
           <span className={styles.statCardValue}>
             <input
@@ -126,18 +143,16 @@ export function DerivedStatsTab() {
               style={{ fontSize: 'var(--font-size-2xl)', fontWeight: 700, width: 80 }}
             />
           </span>
-          <div className={styles.toggleGroup} style={{ marginTop: 8 }}>
+          <select
+            className={styles.formSelect}
+            value={luckMode}
+            onChange={e => updateLuckMode(e.target.value as LuckMode)}
+            style={{ marginTop: 8, width: '100%' }}
+          >
             {LUCK_MODES.map(lm => (
-              <button
-                key={lm.mode}
-                className={`${styles.toggleOption} ${luckMode === lm.mode ? styles.toggleOptionActive : ''}`}
-                onClick={() => updateLuckMode(lm.mode)}
-                title={lm.desc}
-              >
-                {lm.label}
-              </button>
+              <option key={lm.mode} value={lm.mode}>{lm.label} ({lm.desc})</option>
             ))}
-          </div>
+          </select>
           <span className={styles.statCardFormula}>
             Starting: {startingLuck}{luckModifier !== 0 ? ` (${luckModifier > 0 ? '+' : ''}${luckModifier} edges/drawbacks)` : ''}
           </span>

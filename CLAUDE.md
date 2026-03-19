@@ -141,7 +141,7 @@ Scores range 10–90 (average 50 for humans). Cost: 1 CIP per 5 points of abilit
 
 ### Skills
 
-Skills have a **Base Score** derived from ability averages, and a **Skill Score** = Base + (Level × 10), where Student=+10, Teacher=+20, Master=+30.
+Skills have a **Base Score** derived from ability averages, and a **Skill Score** = Base + level bonus, where Student=+15, Teacher=+30, Master=+50.
 
 The Companion introduces **Broad vs Narrow** skill systems. The app should support both.
 

@@ -85,17 +85,10 @@ export function CharacterList() {
       </div>
 
       <div className={styles.createRow}>
-        <span className={styles.createLabel}>New character:</span>
-        {([85, 100, 125] as CipBudget[]).map(budget => (
-          <button
-            key={budget}
-            className={styles.budgetOption}
-            onClick={() => handleCreate(budget)}
-          >
-            <Plus size={14} />
-            {budget} CIP
-          </button>
-        ))}
+        <button className={styles.createButton} onClick={() => handleCreate(100)}>
+          <Plus size={16} />
+          New Character
+        </button>
       </div>
 
       <div className={styles.importRow}>

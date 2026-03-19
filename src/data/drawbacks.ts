@@ -14,7 +14,8 @@ export const drawbacks: DrawbackDefinition[] = [
     name: 'Age',
     cipBonus: 3,
     maxPurchases: 1,
-    description: 'Over 45 or under 16; periodic ability checks',
+    description: 'Over 65 or under 16. -3 CIPs per 5 years over 65, or per 2 years under 16. Must subtract 10 CIPs in STR/STA/DEX/AGL per increment.',
+    variableBonus: true,
   },
   {
     id: 'blindness',

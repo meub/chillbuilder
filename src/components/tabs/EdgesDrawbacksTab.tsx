@@ -105,7 +105,7 @@ export function EdgesDrawbacksTab() {
 
       {/* Add Edges */}
       <div className={styles.categoryHeader} style={{ marginTop: 24 }}>Add Edges</div>
-      <div className={styles.searchWrapper}>
+      <div className={styles.searchWrapper} style={{ marginTop: 12 }}>
         <Search size={16} className={styles.searchIcon} />
         <input className={styles.searchInput} placeholder="Search edges..." value={edgeSearch} onChange={e => setEdgeSearch(e.target.value)} />
       </div>
@@ -196,7 +196,7 @@ export function EdgesDrawbacksTab() {
 
       {/* Add Drawbacks */}
       <div className={styles.categoryHeader} style={{ marginTop: 24 }}>Add Drawbacks</div>
-      <div className={styles.searchWrapper}>
+      <div className={styles.searchWrapper} style={{ marginTop: 12 }}>
         <Search size={16} className={styles.searchIcon} />
         <input className={styles.searchInput} placeholder="Search drawbacks..." value={drawbackSearch} onChange={e => setDrawbackSearch(e.target.value)} />
       </div>
