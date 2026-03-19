@@ -301,7 +301,7 @@ function BroadSkillCatalog({
             <div>
               <div className={styles.catalogItemName}>{def.name}</div>
               <div className={styles.catalogItemDesc}>
-                Base: {baseScore} — Costs: {def.costs.join('/')} CIP (S/T/M)
+                Base: {baseScore} — {def.formula.length === 1 ? def.formula[0] : `(${def.formula.join(' + ')}) / ${def.formula.length}`} — Costs: {def.costs.join('/')} CIP (S/T/M)
               </div>
               <div style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-muted)', marginTop: 2 }}>
                 {def.encompasses.map(id => narrowSkillNameMap[id] || id).join(', ')}
@@ -348,7 +348,7 @@ function NarrowSkillCatalog({
                     {skill.isNew && <span style={{ color: 'var(--success)', marginLeft: 6, fontSize: '0.7rem' }}>NEW</span>}
                   </div>
                   <div className={styles.catalogItemDesc}>
-                    Base: {baseScore}
+                    Base: {baseScore} — {skill.formula.length === 1 ? skill.formula[0] : `(${skill.formula.join(' + ')}) / ${skill.formula.length}`}
                     {skill.unskilled !== undefined && ` — Unskilled: +${skill.unskilled}`}
                   </div>
                 </div>

@@ -6,6 +6,7 @@ import { computeBaseScore, computeSkillScore, computeStrikeRank } from '../../ut
 import { useCharacterStore } from '../../store/useCharacterStore';
 import { useRollDialog } from '../../hooks/useRollDialog';
 import { RollDialog } from '../shared/RollDialog';
+import { Tooltip } from '../shared/Tooltip';
 import { narrowSkills } from '../../data/skills-narrow';
 import { broadSkills } from '../../data/skills-broad';
 import type { LuckMode } from '../../models/types';
@@ -74,31 +75,39 @@ export function DerivedStatsTab() {
       </p>
 
       <div className={styles.statGrid}>
-        <div className={styles.statCard}>
-          <span className={styles.statCardLabel}>Movement</span>
-          <span className={styles.statCardValue}>{derived.movement}</span>
-          <span className={styles.statCardFormula}>floor(AGL/3) + 20</span>
-        </div>
+        <Tooltip content={`floor(${character.abilities.AGL} / 3) + 20 = ${derived.movement}`} side="bottom">
+          <div className={styles.statCard}>
+            <span className={styles.statCardLabel}>Movement</span>
+            <span className={styles.statCardValue}>{derived.movement}</span>
+            <span className={styles.statCardFormula}>floor(AGL/3) + 20</span>
+          </div>
+        </Tooltip>
 
-        <div className={styles.statCard}>
-          <span className={styles.statCardLabel}>Sprinting Speed</span>
-          <span className={styles.statCardValue}>{derived.sprintingSpeed} ft/rnd</span>
-          <span className={styles.statCardFormula}>AGL + 50</span>
-        </div>
+        <Tooltip content={`${character.abilities.AGL} + 50 = ${derived.sprintingSpeed}`} side="bottom">
+          <div className={styles.statCard}>
+            <span className={styles.statCardLabel}>Sprinting Speed</span>
+            <span className={styles.statCardValue}>{derived.sprintingSpeed} ft/rnd</span>
+            <span className={styles.statCardFormula}>AGL + 50</span>
+          </div>
+        </Tooltip>
 
-        <div className={styles.statCard}>
-          <span className={styles.statCardLabel}>Unskilled Melee</span>
-          <span className={styles.statCardValue}>{derived.unskilledMelee}</span>
-          <span className={styles.statCardFormula}>(AGL+STR)/2 + 4</span>
-        </div>
+        <Tooltip content={`(${character.abilities.AGL} + ${character.abilities.STR}) / 2 + 4 = ${derived.unskilledMelee}`} side="bottom">
+          <div className={styles.statCard}>
+            <span className={styles.statCardLabel}>Unskilled Melee</span>
+            <span className={styles.statCardValue}>{derived.unskilledMelee}</span>
+            <span className={styles.statCardFormula}>(AGL+STR)/2 + 4</span>
+          </div>
+        </Tooltip>
 
-        <div className={styles.statCard}>
-          <span className={styles.statCardLabel}>Sensing the Unknown</span>
-          <span className={styles.statCardValue}>{derived.sensingTheUnknown}</span>
-          <span className={styles.statCardFormula}>
-            floor(PCN/{character.edges.some(e => e.edgeId === 'evil-sense') ? '4' : '5'}) + 20
-          </span>
-        </div>
+        <Tooltip content={`floor(${character.abilities.PCN} / ${character.edges.some(e => e.edgeId === 'evil-sense') ? '4' : '5'}) + 20 = ${derived.sensingTheUnknown}`} side="bottom">
+          <div className={styles.statCard}>
+            <span className={styles.statCardLabel}>Sensing the Unknown</span>
+            <span className={styles.statCardValue}>{derived.sensingTheUnknown}</span>
+            <span className={styles.statCardFormula}>
+              floor(PCN/{character.edges.some(e => e.edgeId === 'evil-sense') ? '4' : '5'}) + 20
+            </span>
+          </div>
+        </Tooltip>
 
         <div className={styles.statCard}>
           <span className={styles.statCardLabel}>Initiative</span>
@@ -158,28 +167,30 @@ export function DerivedStatsTab() {
           </span>
         </div>
 
-        <div className={styles.statCard}>
-          <span className={styles.statCardLabel}>Wound Boxes ({woundBoxCount})</span>
-          <div style={{ display: 'flex', gap: 8, marginTop: 8, flexWrap: 'wrap' }}>
-            {wounds.map((wounded, i) => (
-              <button
-                key={i}
-                onClick={() => toggleWound(i)}
-                style={{
-                  width: 28,
-                  height: 28,
-                  borderRadius: 4,
-                  border: `2px solid ${wounded ? 'var(--danger)' : 'var(--border-strong)'}`,
-                  background: wounded ? 'var(--danger)' : 'transparent',
-                  cursor: 'pointer',
-                  transition: 'all 150ms ease',
-                }}
-                title={`Wound ${i + 1}: ${wounded ? 'Wounded' : 'Healthy'}`}
-              />
-            ))}
+        <Tooltip content={`floor((${character.abilities.STR} + ${character.abilities.STA}) / 2 / 10) = ${woundBoxCount}`} side="bottom">
+          <div className={styles.statCard}>
+            <span className={styles.statCardLabel}>Wound Boxes ({woundBoxCount})</span>
+            <div style={{ display: 'flex', gap: 8, marginTop: 8, flexWrap: 'wrap' }}>
+              {wounds.map((wounded, i) => (
+                <button
+                  key={i}
+                  onClick={() => toggleWound(i)}
+                  style={{
+                    width: 28,
+                    height: 28,
+                    borderRadius: 4,
+                    border: `2px solid ${wounded ? 'var(--danger)' : 'var(--border-strong)'}`,
+                    background: wounded ? 'var(--danger)' : 'transparent',
+                    cursor: 'pointer',
+                    transition: 'all 150ms ease',
+                  }}
+                  title={`Wound ${i + 1}: ${wounded ? 'Wounded' : 'Healthy'}`}
+                />
+              ))}
+            </div>
+            <span className={styles.statCardFormula}>floor((STR+STA)/2/10)</span>
           </div>
-          <span className={styles.statCardFormula}>floor((STR+STA)/2/10)</span>
-        </div>
+        </Tooltip>
       </div>
 
       {/* Strike Rank Table */}
