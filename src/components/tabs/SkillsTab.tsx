@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { Search, Plus, X, Dices, ChevronUp, ChevronDown } from 'lucide-react';
 import { useActiveCharacter } from '../../hooks/useActiveCharacter';
 import { useCharacterStore } from '../../store/useCharacterStore';
@@ -11,20 +11,26 @@ import { narrowSkills } from '../../data/skills-narrow';
 import { broadSkills } from '../../data/skills-broad';
 import { computeBaseScore, computeSkillScore } from '../../utils/skills';
 import { computeSkillCip } from '../../utils/cip';
-import type { SkillLevel, SkillSystem, SkillDefinition, BroadSkillDefinition } from '../../models/types';
+import type { SkillLevel, SkillDefinition, BroadSkillDefinition, AbilityKey } from '../../models/types';
 import styles from '../shared/shared.module.css';
 import rollStyles from '../shared/RollDialog.module.css';
 
 const SKILL_LEVELS: SkillLevel[] = ['S', 'T', 'M'];
 const LEVEL_LABELS: Record<SkillLevel, string> = { S: 'Student', T: 'Teacher', M: 'Master' };
+const ABILITY_KEYS: AbilityKey[] = ['AGL', 'DEX', 'LCK', 'PCN', 'PER', 'STA', 'STR', 'WPR'];
 
 // Lookup narrow skill names by ID for broad skill sub-skill display
 const narrowSkillNameMap: Record<string, string> = {};
 for (const s of narrowSkills) narrowSkillNameMap[s.id] = s.name;
 
+// Persist filter state across tab navigations (module-level)
+let persistedAbilityFilter = new Set<AbilityKey>();
+let persistedFilterMode: 'or' | 'and' = 'or';
+let persistedMixedView: 'broad' | 'narrow' = 'narrow';
+let persistedSearch = '';
+
 export function SkillsTab() {
   const character = useActiveCharacter();
-  const updateSkillSystem = useCharacterStore(s => s.updateSkillSystem);
   const addSkill = useCharacterStore(s => s.addSkill);
   const updateSkillLevel = useCharacterStore(s => s.updateSkillLevel);
   const removeSkill = useCharacterStore(s => s.removeSkill);
@@ -32,27 +38,51 @@ export function SkillsTab() {
   const toggleDiscouraged = useCharacterStore(s => s.toggleDiscouraged);
   const roll = useRollDialog();
   const undoToast = useUndoToast();
-  const [search, setSearch] = useState('');
-  const [mixedView, setMixedView] = useState<'broad' | 'narrow'>('narrow');
+  const [search, setSearch] = useState(persistedSearch);
+  const [mixedView, setMixedView] = useState<'broad' | 'narrow'>(persistedMixedView);
+  const [abilityFilter, setAbilityFilter] = useState<Set<AbilityKey>>(persistedAbilityFilter);
+  const [filterMode, setFilterMode] = useState<'or' | 'and'>(persistedFilterMode);
+
+  // Sync to module-level persistence
+  useEffect(() => {
+    persistedSearch = search;
+    persistedMixedView = mixedView;
+    persistedAbilityFilter = abilityFilter;
+    persistedFilterMode = filterMode;
+  }, [search, mixedView, abilityFilter, filterMode]);
+
+  const toggleAbilityFilter = (key: AbilityKey) => {
+    setAbilityFilter(prev => {
+      const next = new Set(prev);
+      if (next.has(key)) next.delete(key);
+      else next.add(key);
+      return next;
+    });
+  };
+
+  const matchesAbilityFilter = (formula: AbilityKey[]) => {
+    if (abilityFilter.size === 0) return true;
+    if (filterMode === 'and') return [...abilityFilter].every(k => formula.includes(k));
+    return formula.some(k => abilityFilter.has(k));
+  };
 
   if (!character) return null;
 
-  const system = character.skillSystem;
-  const showBroad = system === 'broad' || (system === 'mixed' && mixedView === 'broad');
-  const showNarrow = system === 'narrow' || (system === 'mixed' && mixedView === 'narrow');
+  const showBroad = mixedView === 'broad';
+  const showNarrow = mixedView === 'narrow';
 
   const ownedIds = new Set(character.skills.map(s => s.skillId));
   const query = search.toLowerCase();
 
   const availableBroadSkills = useMemo(() => {
     if (!showBroad) return [];
-    return broadSkills.filter(s => !ownedIds.has(s.id) && s.name.toLowerCase().includes(query));
-  }, [character.skills, search, showBroad]);
+    return broadSkills.filter(s => !ownedIds.has(s.id) && s.name.toLowerCase().includes(query) && matchesAbilityFilter(s.formula));
+  }, [character.skills, search, showBroad, abilityFilter, filterMode]);
 
   const availableNarrowSkills = useMemo(() => {
     if (!showNarrow) return [];
-    return narrowSkills.filter(s => !ownedIds.has(s.id) && s.name.toLowerCase().includes(query));
-  }, [character.skills, search, showNarrow]);
+    return narrowSkills.filter(s => !ownedIds.has(s.id) && s.name.toLowerCase().includes(query) && matchesAbilityFilter(s.formula));
+  }, [character.skills, search, showNarrow, abilityFilter, filterMode]);
 
   const groupedNarrow = useMemo(() => {
     if (!showNarrow) return null;
@@ -69,52 +99,86 @@ export function SkillsTab() {
     <div className={styles.tabPage}>
       <h2 className={styles.tabTitle}>Skills</h2>
 
-      {/* Skill system toggle */}
-      <div className={styles.toggleGroup}>
-        {(['narrow', 'broad', 'mixed'] as SkillSystem[]).map(sys => (
-          <button
-            key={sys}
-            className={`${styles.toggleOption} ${system === sys ? styles.toggleOptionActive : ''}`}
-            onClick={() => {
-              if (sys !== system && character.skills.length > 0) {
-                const clearNeeded =
-                  (system === 'broad' && sys === 'narrow') ||
-                  (system === 'narrow' && sys === 'broad');
-                if (clearNeeded && !confirm('Switching between broad and narrow will clear all current skills. Continue?')) return;
-              }
-              updateSkillSystem(sys);
-            }}
-          >
-            {sys.charAt(0).toUpperCase() + sys.slice(1)}
-          </button>
-        ))}
-      </div>
-
       {/* Owned skills */}
       <OwnedSkills character={character} updateSkillLevel={updateSkillLevel} removeSkill={removeSkill} addSkill={addSkill} openRoll={roll.openRoll} showUndo={undoToast.show} toggleEncouraged={toggleEncouraged} toggleDiscouraged={toggleDiscouraged} />
 
       {/* Add skills */}
-      <div className={styles.categoryHeader} style={{ marginTop: 24 }}>Add Skills</div>
-
-      {/* Mixed mode: sub-toggle for broad vs narrow catalog */}
-      {system === 'mixed' && (
-        <div className={styles.toggleGroup} style={{ marginTop: 12, marginBottom: 12 }}>
+      <div className={styles.categoryHeader} style={{ marginTop: 24, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <span>Add Skills</span>
+        <div className={styles.toggleGroup} style={{ margin: 0 }}>
           <button
             className={`${styles.toggleOption} ${mixedView === 'narrow' ? styles.toggleOptionActive : ''}`}
             onClick={() => setMixedView('narrow')}
           >
-            Narrow Skills
+            Narrow
           </button>
-          <button
-            className={`${styles.toggleOption} ${mixedView === 'broad' ? styles.toggleOptionActive : ''}`}
-            onClick={() => setMixedView('broad')}
-          >
-            Broad Skills
-          </button>
-        </div>
-      )}
+            <button
+              className={`${styles.toggleOption} ${mixedView === 'broad' ? styles.toggleOptionActive : ''}`}
+              onClick={() => setMixedView('broad')}
+            >
+              Broad
+            </button>
+          </div>
+      </div>
 
-      <div className={styles.searchWrapper}>
+      {/* Ability filter */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 12, flexWrap: 'wrap' }}>
+        <span style={{ fontSize: 'var(--font-size-xs)', color: 'var(--text-muted)' }}>Filter by ability:</span>
+        {ABILITY_KEYS.map(key => (
+          <button
+            key={key}
+            onClick={() => toggleAbilityFilter(key)}
+            style={{
+              padding: '2px 8px',
+              fontSize: 'var(--font-size-xs)',
+              fontWeight: 600,
+              borderRadius: 'var(--radius-sm)',
+              border: `1px solid ${abilityFilter.has(key) ? 'var(--accent)' : 'var(--border)'}`,
+              background: abilityFilter.has(key) ? 'var(--accent)' : 'var(--bg-elevated)',
+              color: abilityFilter.has(key) ? '#fff' : 'var(--text-muted)',
+              cursor: 'pointer',
+              transition: 'all 100ms ease',
+            }}
+          >
+            {key}
+          </button>
+        ))}
+        {abilityFilter.size > 0 && (
+          <button
+            onClick={() => setAbilityFilter(new Set())}
+            style={{
+              padding: '2px 8px',
+              fontSize: 'var(--font-size-xs)',
+              color: 'var(--text-muted)',
+              cursor: 'pointer',
+            }}
+          >
+            Clear
+          </button>
+        )}
+        {abilityFilter.size > 1 && (
+          <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 4 }}>
+            <div className={styles.toggleGroup} style={{ margin: 0 }}>
+              <button
+                className={`${styles.toggleOption} ${filterMode === 'or' ? styles.toggleOptionActive : ''}`}
+                onClick={() => setFilterMode('or')}
+                style={{ padding: '2px 8px', fontSize: 'var(--font-size-xs)' }}
+              >
+                OR
+              </button>
+              <button
+                className={`${styles.toggleOption} ${filterMode === 'and' ? styles.toggleOptionActive : ''}`}
+                onClick={() => setFilterMode('and')}
+                style={{ padding: '2px 8px', fontSize: 'var(--font-size-xs)' }}
+              >
+                AND
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+
+      <div className={styles.searchWrapper} style={{ marginTop: 12 }}>
         <Search size={16} className={styles.searchIcon} />
         <input
           className={styles.searchInput}
@@ -299,7 +363,9 @@ function BroadSkillCatalog({
         return (
           <div key={def.id} className={styles.catalogItem}>
             <div>
-              <div className={styles.catalogItemName}>{def.name}</div>
+              <Tooltip content={def.description || def.name} side="right">
+                <div className={styles.catalogItemName}>{def.name}</div>
+              </Tooltip>
               <div className={styles.catalogItemDesc}>
                 Base: {baseScore} — {def.formula.length === 1 ? def.formula[0] : `(${def.formula.join(' + ')}) / ${def.formula.length}`} — Costs: {def.costs.join('/')} CIP (S/T/M)
               </div>
@@ -342,11 +408,13 @@ function NarrowSkillCatalog({
             return (
               <div key={skill.id} className={styles.catalogItem}>
                 <div>
-                  <div className={styles.catalogItemName}>
-                    {skill.name}
-                    {skill.isInfo && <span style={{ color: 'var(--info)', marginLeft: 6, fontSize: '0.7rem' }}>[I]</span>}
-                    {skill.isNew && <span style={{ color: 'var(--success)', marginLeft: 6, fontSize: '0.7rem' }}>NEW</span>}
-                  </div>
+                  <Tooltip content={skill.description || skill.name} side="right">
+                    <div className={styles.catalogItemName}>
+                      {skill.name}
+                      {skill.isInfo && <span style={{ color: 'var(--info)', marginLeft: 6, fontSize: '0.7rem' }}>[I]</span>}
+                      {skill.isNew && <span style={{ color: 'var(--success)', marginLeft: 6, fontSize: '0.7rem' }}>NEW</span>}
+                    </div>
+                  </Tooltip>
                   <div className={styles.catalogItemDesc}>
                     Base: {baseScore} — {skill.formula.length === 1 ? skill.formula[0] : `(${skill.formula.join(' + ')}) / ${skill.formula.length}`}
                     {skill.unskilled !== undefined && ` — Unskilled: +${skill.unskilled}`}

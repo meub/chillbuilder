@@ -29,6 +29,7 @@ export type SkillCategory =
 export interface SkillDefinition {
   id: string;
   name: string;
+  description?: string;   // brief description of what the skill covers
   formula: AbilityKey[]; // averaged to compute base score
   category: SkillCategory;
   isInfo?: boolean;       // [I] information skill
@@ -41,6 +42,7 @@ export interface SkillDefinition {
 export interface BroadSkillDefinition {
   id: string;
   name: string;
+  description?: string;
   formula: AbilityKey[];
   costs: [number, number, number]; // [Student, Teacher, Master] CIP costs
   encompasses: string[];           // narrow skill IDs this covers

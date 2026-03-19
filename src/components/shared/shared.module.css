@@ -269,6 +269,7 @@
 .catalogItemName {
   font-size: var(--font-size-sm);
   font-weight: 500;
+  cursor: pointer;
 }
 
 .catalogItemDesc {

@@ -5,6 +5,7 @@ export const narrowSkills: SkillDefinition[] = [
   {
     id: 'blackjack-club-mace',
     name: 'Blackjack/Club/Mace',
+    description: 'Fight with clubs, blackjacks, and maces',
     formula: ['AGL', 'STR'],
     category: 'melee',
     unskilled: 4,
@@ -12,6 +13,7 @@ export const narrowSkills: SkillDefinition[] = [
   {
     id: 'boxing',
     name: 'Boxing',
+    description: 'Unarmed fighting with fists and punches',
     formula: ['AGL', 'STR'],
     category: 'melee',
     unskilled: 4,
@@ -19,6 +21,7 @@ export const narrowSkills: SkillDefinition[] = [
   {
     id: 'dagger-knife',
     name: 'Dagger/Knife',
+    description: 'Close combat with daggers and knives',
     formula: ['AGL', 'STR'],
     category: 'melee',
     unskilled: 4,
@@ -26,6 +29,7 @@ export const narrowSkills: SkillDefinition[] = [
   {
     id: 'machete',
     name: 'Machete',
+    description: 'Fight with machetes and heavy chopping blades',
     formula: ['AGL', 'STR'],
     category: 'melee',
     unskilled: 4,
@@ -33,6 +37,7 @@ export const narrowSkills: SkillDefinition[] = [
   {
     id: 'polearm',
     name: 'Polearm',
+    description: 'Fight with halberds, pikes, and other polearms',
     formula: ['AGL', 'STR'],
     category: 'melee',
     unskilled: 4,
@@ -40,6 +45,7 @@ export const narrowSkills: SkillDefinition[] = [
   {
     id: 'rapier',
     name: 'Rapier',
+    description: 'Fight with rapiers and light thrusting swords',
     formula: ['AGL', 'STR'],
     category: 'melee',
     unskilled: 4,
@@ -47,6 +53,7 @@ export const narrowSkills: SkillDefinition[] = [
   {
     id: 'spear',
     name: 'Spear',
+    description: 'Fight with spears in melee combat',
     formula: ['AGL', 'STR'],
     category: 'melee',
     unskilled: 4,
@@ -54,6 +61,7 @@ export const narrowSkills: SkillDefinition[] = [
   {
     id: 'sword-one-handed',
     name: 'Sword (One-handed)',
+    description: 'Fight with one-handed swords and sabers',
     formula: ['AGL', 'STR'],
     category: 'melee',
     unskilled: 4,
@@ -61,6 +69,7 @@ export const narrowSkills: SkillDefinition[] = [
   {
     id: 'sword-two-handed',
     name: 'Sword (Two-handed)',
+    description: 'Fight with greatswords and two-handed blades',
     formula: ['AGL', 'STR'],
     category: 'melee',
     unskilled: 4,
@@ -68,6 +77,7 @@ export const narrowSkills: SkillDefinition[] = [
   {
     id: 'wrestling',
     name: 'Wrestling',
+    description: 'Grapple, pin, and restrain opponents',
     formula: ['AGL', 'STR'],
     category: 'melee',
     unskilled: 4,
@@ -75,6 +85,7 @@ export const narrowSkills: SkillDefinition[] = [
   {
     id: 'martial-arts',
     name: 'Martial Arts',
+    description: 'Trained hand-to-hand combat techniques',
     formula: ['AGL', 'DEX', 'STR', 'WPR'],
     category: 'melee',
     isMartialArts: true,
@@ -84,24 +95,28 @@ export const narrowSkills: SkillDefinition[] = [
   {
     id: 'pistol',
     name: 'Pistol',
+    description: 'Accurate use of pistols and handguns',
     formula: ['DEX'],
     category: 'firearms',
   },
   {
     id: 'rifle',
     name: 'Rifle',
+    description: 'Accurate use of rifles and long guns',
     formula: ['DEX'],
     category: 'firearms',
   },
   {
     id: 'submachine-gun',
     name: 'Submachine Gun',
+    description: 'Handle and fire submachine guns effectively',
     formula: ['DEX'],
     category: 'firearms',
   },
   {
     id: 'automatic-weapon',
     name: 'Automatic Weapon',
+    description: 'Operate automatic weapons and machine guns',
     formula: ['DEX'],
     category: 'firearms',
   },
@@ -110,6 +125,7 @@ export const narrowSkills: SkillDefinition[] = [
   {
     id: 'bow-long-short',
     name: 'Bow (Long & Short)',
+    description: 'Shoot longbows and shortbows accurately',
     formula: ['DEX', 'STR'],
     category: 'bow',
     unskilled: 4,
@@ -117,6 +133,7 @@ export const narrowSkills: SkillDefinition[] = [
   {
     id: 'crossbow',
     name: 'Crossbow',
+    description: 'Load and fire crossbows accurately',
     formula: ['DEX', 'STR'],
     category: 'bow',
     unskilled: 4,
@@ -126,6 +143,7 @@ export const narrowSkills: SkillDefinition[] = [
   {
     id: 'bola',
     name: 'Bola',
+    description: 'Throw bolas to entangle and trip targets',
     formula: ['AGL', 'DEX', 'STR'],
     category: 'entangler',
     unskilled: 10,
@@ -133,6 +151,7 @@ export const narrowSkills: SkillDefinition[] = [
   {
     id: 'lasso',
     name: 'Lasso',
+    description: 'Rope and restrain targets at range',
     formula: ['AGL', 'DEX', 'STR'],
     category: 'entangler',
     unskilled: 10,
@@ -140,6 +159,7 @@ export const narrowSkills: SkillDefinition[] = [
   {
     id: 'whip',
     name: 'Whip',
+    description: 'Strike and entangle targets with a whip',
     formula: ['AGL', 'DEX', 'STR'],
     category: 'entangler',
     unskilled: 10,
@@ -149,6 +169,7 @@ export const narrowSkills: SkillDefinition[] = [
   {
     id: 'axe-tomahawk-thrown',
     name: 'Axe/Tomahawk (Thrown)',
+    description: 'Throw axes and tomahawks at targets',
     formula: ['DEX', 'STR'],
     category: 'thrown',
     unskilled: 5,
@@ -156,6 +177,7 @@ export const narrowSkills: SkillDefinition[] = [
   {
     id: 'boomerang',
     name: 'Boomerang',
+    description: 'Throw boomerangs with accuracy',
     formula: ['DEX', 'STR'],
     category: 'thrown',
     unskilled: 5,
@@ -163,6 +185,7 @@ export const narrowSkills: SkillDefinition[] = [
   {
     id: 'dagger-knife-thrown',
     name: 'Dagger/Knife (Thrown)',
+    description: 'Throw daggers and knives at targets',
     formula: ['DEX', 'STR'],
     category: 'thrown',
     unskilled: 5,
@@ -170,6 +193,7 @@ export const narrowSkills: SkillDefinition[] = [
   {
     id: 'javelin',
     name: 'Javelin',
+    description: 'Throw javelins at distant targets',
     formula: ['DEX', 'STR'],
     category: 'thrown',
     unskilled: 5,
@@ -177,6 +201,7 @@ export const narrowSkills: SkillDefinition[] = [
   {
     id: 'spear-thrown',
     name: 'Spear (Thrown)',
+    description: 'Throw spears at targets from a distance',
     formula: ['DEX', 'STR'],
     category: 'thrown',
     unskilled: 5,
@@ -184,6 +209,7 @@ export const narrowSkills: SkillDefinition[] = [
   {
     id: 'unbalanced-objects-thrown',
     name: 'Unbalanced Objects (Thrown)',
+    description: 'Throw rocks, bottles, and improvised objects',
     formula: ['DEX', 'STR'],
     category: 'thrown',
     unskilled: 5,
@@ -193,6 +219,7 @@ export const narrowSkills: SkillDefinition[] = [
   {
     id: 'slingshot',
     name: 'Slingshot',
+    description: 'Fire projectiles with a slingshot',
     formula: ['DEX', 'WPR'],
     category: 'ranged',
     unskilled: 4, // special: (DEX+STR)+4 but stored as bonus value
@@ -202,6 +229,7 @@ export const narrowSkills: SkillDefinition[] = [
   {
     id: 'dodge',
     name: 'Dodge',
+    description: 'Evade attacks and avoid incoming danger',
     formula: ['AGL', 'LCK'],
     category: 'combat',
     unskilled: 4,
@@ -211,6 +239,7 @@ export const narrowSkills: SkillDefinition[] = [
   {
     id: 'accounting',
     name: 'Accounting',
+    description: 'Knowledge of financial records and bookkeeping',
     formula: ['PCN', 'WPR'],
     category: 'non-combat',
     isInfo: true,
@@ -218,18 +247,21 @@ export const narrowSkills: SkillDefinition[] = [
   {
     id: 'acrobatics',
     name: 'Acrobatics',
+    description: 'Perform tumbling, flips, and feats of balance',
     formula: ['AGL', 'PCN', 'STA'],
     category: 'non-combat',
   },
   {
     id: 'acting',
     name: 'Acting',
+    description: 'Portray characters and fake emotions convincingly',
     formula: ['PCN', 'PER', 'WPR'],
     category: 'non-combat',
   },
   {
     id: 'acupuncture',
     name: 'Acupuncture',
+    description: 'Treat ailments through traditional needle therapy',
     formula: ['DEX', 'PCN', 'STA', 'WPR'],
     category: 'non-combat',
     isNew: true,
@@ -237,6 +269,7 @@ export const narrowSkills: SkillDefinition[] = [
   {
     id: 'administration',
     name: 'Administration',
+    description: 'Manage organizations, bureaucracy, and logistics',
     formula: ['WPR'],
     category: 'non-combat',
     isNew: true,
@@ -244,6 +277,7 @@ export const narrowSkills: SkillDefinition[] = [
   {
     id: 'ancient-language',
     name: 'Ancient Language [each]',
+    description: 'Knowledge of a specific dead or ancient language',
     formula: ['PCN', 'WPR'],
     category: 'non-combat',
     isInfo: true,
@@ -251,12 +285,14 @@ export const narrowSkills: SkillDefinition[] = [
   {
     id: 'animal-training',
     name: 'Animal Training',
+    description: 'Train and handle animals for specific tasks',
     formula: ['AGL', 'PCN', 'PER'],
     category: 'non-combat',
   },
   {
     id: 'anthropology-archaeology',
     name: 'Anthropology/Archaeology',
+    description: 'Knowledge of human cultures and ancient civilizations',
     formula: ['PCN', 'WPR'],
     category: 'non-combat',
     isInfo: true,
@@ -264,6 +300,7 @@ export const narrowSkills: SkillDefinition[] = [
   {
     id: 'antiques',
     name: 'Antiques',
+    description: 'Knowledge of antiques, their value, and origin',
     formula: ['LCK', 'PCN'],
     category: 'non-combat',
     isInfo: true,
@@ -271,6 +308,7 @@ export const narrowSkills: SkillDefinition[] = [
   {
     id: 'architecture',
     name: 'Architecture',
+    description: 'Design structures and understand building layouts',
     formula: ['DEX', 'PCN'],
     category: 'non-combat',
     isNew: true,
@@ -278,6 +316,7 @@ export const narrowSkills: SkillDefinition[] = [
   {
     id: 'art-criticism',
     name: 'Art Criticism',
+    description: 'Knowledge of art history, styles, and authenticity',
     formula: ['PCN', 'WPR'],
     category: 'non-combat',
     isInfo: true,
@@ -285,6 +324,7 @@ export const narrowSkills: SkillDefinition[] = [
   {
     id: 'astrology',
     name: 'Astrology',
+    description: 'Read horoscopes and interpret celestial signs',
     formula: ['LCK', 'PCN', 'WPR'],
     category: 'non-combat',
     isNew: true,
@@ -292,6 +332,7 @@ export const narrowSkills: SkillDefinition[] = [
   {
     id: 'astronomy',
     name: 'Astronomy',
+    description: 'Knowledge of stars, planets, and celestial bodies',
     formula: ['PCN', 'WPR'],
     category: 'non-combat',
     isInfo: true,
@@ -299,6 +340,7 @@ export const narrowSkills: SkillDefinition[] = [
   {
     id: 'beast-riding',
     name: 'Beast Riding',
+    description: 'Ride and control horses and other mounts',
     formula: ['AGL', 'PCN', 'PER'],
     category: 'non-combat',
     isNew: true,
@@ -306,6 +348,7 @@ export const narrowSkills: SkillDefinition[] = [
   {
     id: 'bicycle',
     name: 'Bicycle',
+    description: 'Ride bicycles skillfully in difficult conditions',
     formula: ['DEX', 'PCN'],
     category: 'non-combat',
     isNew: true,
@@ -313,6 +356,7 @@ export const narrowSkills: SkillDefinition[] = [
   {
     id: 'biology',
     name: 'Biology',
+    description: 'Knowledge of living organisms and life sciences',
     formula: ['PCN', 'WPR'],
     category: 'non-combat',
     isInfo: true,
@@ -320,6 +364,7 @@ export const narrowSkills: SkillDefinition[] = [
   {
     id: 'botany',
     name: 'Botany',
+    description: 'Knowledge of plants, herbs, and fungi',
     formula: ['PCN', 'WPR'],
     category: 'non-combat',
     isInfo: true,
@@ -327,6 +372,7 @@ export const narrowSkills: SkillDefinition[] = [
   {
     id: 'calligraphy',
     name: 'Calligraphy',
+    description: 'Produce fine decorative handwriting and lettering',
     formula: ['DEX', 'PCN'],
     category: 'non-combat',
     isNew: true,
@@ -334,6 +380,7 @@ export const narrowSkills: SkillDefinition[] = [
   {
     id: 'carpentry',
     name: 'Carpentry',
+    description: 'Build and repair wooden structures and objects',
     formula: ['DEX', 'PCN'],
     category: 'non-combat',
     isNew: true,
@@ -341,6 +388,7 @@ export const narrowSkills: SkillDefinition[] = [
   {
     id: 'cartography-geography',
     name: 'Cartography/Geography',
+    description: 'Knowledge of maps, terrain, and world geography',
     formula: ['PCN', 'WPR'],
     category: 'non-combat',
     isInfo: true,
@@ -348,6 +396,7 @@ export const narrowSkills: SkillDefinition[] = [
   {
     id: 'charm',
     name: 'Charm',
+    description: 'Win people over with warmth and likability',
     formula: ['PCN', 'WPR'],
     category: 'non-combat',
     isNew: true,
@@ -355,6 +404,7 @@ export const narrowSkills: SkillDefinition[] = [
   {
     id: 'chemistry',
     name: 'Chemistry',
+    description: 'Knowledge of chemical compounds and reactions',
     formula: ['PCN', 'WPR'],
     category: 'non-combat',
     isInfo: true,
@@ -362,6 +412,7 @@ export const narrowSkills: SkillDefinition[] = [
   {
     id: 'chiropractic',
     name: 'Chiropractic',
+    description: 'Treat musculoskeletal problems through spinal adjustment',
     formula: ['DEX', 'PCN', 'STA', 'WPR'],
     category: 'non-combat',
     isNew: true,
@@ -369,12 +420,14 @@ export const narrowSkills: SkillDefinition[] = [
   {
     id: 'climbing',
     name: 'Climbing',
+    description: 'Scale walls, cliffs, and other vertical surfaces',
     formula: ['AGL', 'PCN', 'STA', 'STR'],
     category: 'non-combat',
   },
   {
     id: 'comparative-religion',
     name: 'Comparative Religion',
+    description: 'Knowledge of world religions, rituals, and beliefs',
     formula: ['PCN', 'WPR'],
     category: 'non-combat',
     isInfo: true,
@@ -382,6 +435,7 @@ export const narrowSkills: SkillDefinition[] = [
   {
     id: 'computer',
     name: 'Computer',
+    description: 'Knowledge of computer systems and programming',
     formula: ['PCN', 'WPR'],
     category: 'non-combat',
     isInfo: true,
@@ -389,12 +443,14 @@ export const narrowSkills: SkillDefinition[] = [
   {
     id: 'contemporary-language',
     name: 'Contemporary Language [each]',
+    description: 'Speak and understand a specific modern language',
     formula: ['PCN', 'WPR'],
     category: 'non-combat',
   },
   {
     id: 'creative-writing',
     name: 'Creative Writing',
+    description: 'Write compelling fiction, scripts, and narratives',
     formula: ['LCK', 'PCN', 'PER'],
     category: 'non-combat',
     isNew: true,
@@ -402,6 +458,7 @@ export const narrowSkills: SkillDefinition[] = [
   {
     id: 'dance',
     name: 'Dance',
+    description: 'Perform dance styles with grace and skill',
     formula: ['PCN', 'PER', 'WPR'],
     category: 'non-combat',
     isNew: true,
@@ -409,36 +466,42 @@ export const narrowSkills: SkillDefinition[] = [
   {
     id: 'disguise',
     name: 'Disguise',
+    description: 'Alter appearance to impersonate others or hide identity',
     formula: ['DEX', 'PCN', 'PER'],
     category: 'non-combat',
   },
   {
     id: 'driving',
     name: 'Driving',
+    description: 'Operate cars and ground vehicles under pressure',
     formula: ['DEX', 'PCN'],
     category: 'non-combat',
   },
   {
     id: 'electronics',
     name: 'Electronics',
+    description: 'Build, repair, and understand electronic devices',
     formula: ['DEX', 'PCN'],
     category: 'non-combat',
   },
   {
     id: 'explosives',
     name: 'Explosives',
+    description: 'Set, disarm, and handle explosive devices safely',
     formula: ['DEX', 'PCN'],
     category: 'non-combat',
   },
   {
     id: 'familiarity-skills',
     name: 'Familiarity Skills',
+    description: 'General awareness of a specific locale or culture',
     formula: ['LCK', 'PCN', 'WPR'],
     category: 'non-combat',
   },
   {
     id: 'farming',
     name: 'Farming',
+    description: 'Grow crops and manage agricultural work',
     formula: ['LCK', 'PCN', 'WPR'],
     category: 'non-combat',
     isNew: true,
@@ -446,12 +509,14 @@ export const narrowSkills: SkillDefinition[] = [
   {
     id: 'filching',
     name: 'Filching',
+    description: 'Pick pockets and steal small objects unnoticed',
     formula: ['DEX', 'LCK', 'PCN'],
     category: 'non-combat',
   },
   {
     id: 'filmmaking',
     name: 'Filmmaking',
+    description: 'Direct, shoot, and edit film and video productions',
     formula: ['PCN', 'PER', 'WPR'],
     category: 'non-combat',
     isNew: true,
@@ -459,18 +524,21 @@ export const narrowSkills: SkillDefinition[] = [
   {
     id: 'firearms-general',
     name: 'Firearms (general)',
+    description: 'Basic familiarity with all types of firearms',
     formula: ['DEX'],
     category: 'non-combat',
   },
   {
     id: 'first-aid',
     name: 'First Aid',
+    description: 'Provide emergency medical treatment and stabilize wounds',
     formula: ['DEX', 'PCN', 'STA', 'WPR'],
     category: 'non-combat',
   },
   {
     id: 'fishing',
     name: 'Fishing',
+    description: 'Catch fish using various methods and equipment',
     formula: ['LCK', 'PCN', 'WPR'],
     category: 'non-combat',
     isNew: true,
@@ -478,6 +546,7 @@ export const narrowSkills: SkillDefinition[] = [
   {
     id: 'forensics',
     name: 'Forensics',
+    description: 'Knowledge of crime scene analysis and evidence',
     formula: ['PCN', 'WPR'],
     category: 'non-combat',
     isInfo: true,
@@ -485,6 +554,7 @@ export const narrowSkills: SkillDefinition[] = [
   {
     id: 'forgery-graphology',
     name: 'Forgery/Graphology',
+    description: 'Forge documents or analyze handwriting',
     formula: ['DEX', 'PCN'],
     category: 'non-combat',
     isNew: true,
@@ -492,12 +562,14 @@ export const narrowSkills: SkillDefinition[] = [
   {
     id: 'gambling',
     name: 'Gambling',
+    description: 'Play games of chance and read other gamblers',
     formula: ['LCK', 'PCN', 'PER'],
     category: 'non-combat',
   },
   {
     id: 'general-practice',
     name: 'General Practice',
+    description: 'Diagnose and treat common illnesses and injuries',
     formula: ['DEX', 'PCN', 'STA', 'WPR'],
     category: 'non-combat',
     isNew: true,
@@ -505,6 +577,7 @@ export const narrowSkills: SkillDefinition[] = [
   {
     id: 'geology',
     name: 'Geology',
+    description: 'Knowledge of rocks, minerals, and earth formations',
     formula: ['PCN', 'WPR'],
     category: 'non-combat',
     isInfo: true,
@@ -512,12 +585,14 @@ export const narrowSkills: SkillDefinition[] = [
   {
     id: 'heavy-weapons',
     name: 'Heavy Weapons',
+    description: 'Operate heavy military weapons and artillery',
     formula: ['DEX', 'PCN'],
     category: 'non-combat',
   },
   {
     id: 'history',
     name: 'History',
+    description: 'Knowledge of historical events and periods',
     formula: ['PCN', 'WPR'],
     category: 'non-combat',
     isInfo: true,
@@ -525,6 +600,7 @@ export const narrowSkills: SkillDefinition[] = [
   {
     id: 'hunting',
     name: 'Hunting',
+    description: 'Track and hunt game animals in the wild',
     formula: ['LCK', 'PCN', 'WPR'],
     category: 'non-combat',
     isNew: true,
@@ -532,12 +608,14 @@ export const narrowSkills: SkillDefinition[] = [
   {
     id: 'hypnotism',
     name: 'Hypnotism',
+    description: 'Place subjects into a hypnotic trance',
     formula: ['LCK', 'PCN'],
     category: 'non-combat',
   },
   {
     id: 'intimidation',
     name: 'Intimidation',
+    description: 'Frighten or coerce others through threats and presence',
     formula: ['PER'],
     category: 'non-combat',
     isNew: true,
@@ -545,12 +623,14 @@ export const narrowSkills: SkillDefinition[] = [
   {
     id: 'investigation',
     name: 'Investigation',
+    description: 'Search for clues and piece together evidence',
     formula: ['LCK', 'PCN', 'STA'],
     category: 'non-combat',
   },
   {
     id: 'journalism',
     name: 'Journalism',
+    description: 'Knowledge of media, reporting, and research methods',
     formula: ['LCK', 'PCN', 'PER'],
     category: 'non-combat',
     isInfo: true,
@@ -558,6 +638,7 @@ export const narrowSkills: SkillDefinition[] = [
   {
     id: 'law',
     name: 'Law',
+    description: 'Understand legal systems, rights, and court procedures',
     formula: ['LCK', 'PCN', 'PER', 'WPR'],
     category: 'non-combat',
     isNew: true,
@@ -565,6 +646,7 @@ export const narrowSkills: SkillDefinition[] = [
   {
     id: 'legend-lore',
     name: 'Legend/Lore',
+    description: 'Knowledge of myths, legends, and folklore',
     formula: ['PCN', 'WPR'],
     category: 'non-combat',
     isInfo: true,
@@ -572,18 +654,21 @@ export const narrowSkills: SkillDefinition[] = [
   {
     id: 'lip-reading',
     name: 'Lip Reading',
+    description: 'Understand speech by watching lip movements',
     formula: ['PCN', 'WPR'],
     category: 'non-combat',
   },
   {
     id: 'lockpicking',
     name: 'Lockpicking',
+    description: 'Pick locks and bypass mechanical security',
     formula: ['DEX', 'PCN'],
     category: 'non-combat',
   },
   {
     id: 'magic-tricks',
     name: 'Magic Tricks',
+    description: 'Perform sleight-of-hand and stage illusions',
     formula: ['DEX', 'PCN', 'PER'],
     category: 'non-combat',
     isNew: true,
@@ -591,6 +676,7 @@ export const narrowSkills: SkillDefinition[] = [
   {
     id: 'masonry',
     name: 'Masonry',
+    description: 'Build and repair structures with stone and brick',
     formula: ['DEX', 'PCN'],
     category: 'non-combat',
     isNew: true,
@@ -598,6 +684,7 @@ export const narrowSkills: SkillDefinition[] = [
   {
     id: 'mathematics',
     name: 'Mathematics',
+    description: 'Knowledge of advanced math and statistical analysis',
     formula: ['PCN', 'WPR'],
     category: 'non-combat',
     isInfo: true,
@@ -605,18 +692,21 @@ export const narrowSkills: SkillDefinition[] = [
   {
     id: 'mechanics',
     name: 'Mechanics',
+    description: 'Repair and maintain engines and mechanical systems',
     formula: ['DEX', 'PCN'],
     category: 'non-combat',
   },
   {
     id: 'medical-fields',
     name: 'Medical Fields [each]',
+    description: 'Specialized medical knowledge in a specific field',
     formula: ['DEX', 'PCN', 'STA', 'WPR'],
     category: 'non-combat',
   },
   {
     id: 'musicianship',
     name: 'Musicianship',
+    description: 'Play musical instruments with skill',
     formula: ['PCN', 'PER', 'WPR'],
     category: 'non-combat',
     isNew: true,
@@ -624,6 +714,7 @@ export const narrowSkills: SkillDefinition[] = [
   {
     id: 'occult-lore',
     name: 'Occult Lore',
+    description: 'Knowledge of the supernatural, occult practices, and the Unknown',
     formula: ['LCK', 'PCN', 'WPR'],
     category: 'non-combat',
     isNew: true,
@@ -631,12 +722,14 @@ export const narrowSkills: SkillDefinition[] = [
   {
     id: 'painting',
     name: 'Painting',
+    description: 'Create visual art with paints and brushes',
     formula: ['DEX', 'PCN'],
     category: 'non-combat',
   },
   {
     id: 'persuasion',
     name: 'Persuasion',
+    description: 'Convince others through logic and appeal',
     formula: ['PER'],
     category: 'non-combat',
     isNew: true,
@@ -644,12 +737,14 @@ export const narrowSkills: SkillDefinition[] = [
   {
     id: 'photography',
     name: 'Photography',
+    description: 'Take and develop quality photographs',
     formula: ['DEX', 'PCN'],
     category: 'non-combat',
   },
   {
     id: 'physics',
     name: 'Physics',
+    description: 'Knowledge of physical laws, forces, and energy',
     formula: ['PCN', 'WPR'],
     category: 'non-combat',
     isInfo: true,
@@ -657,6 +752,7 @@ export const narrowSkills: SkillDefinition[] = [
   {
     id: 'plumbing',
     name: 'Plumbing',
+    description: 'Install and repair pipes and water systems',
     formula: ['DEX', 'PCN'],
     category: 'non-combat',
     isNew: true,
@@ -664,6 +760,7 @@ export const narrowSkills: SkillDefinition[] = [
   {
     id: 'poetry',
     name: 'Poetry',
+    description: 'Compose and recite verse and spoken word',
     formula: ['LCK', 'PCN', 'PER'],
     category: 'non-combat',
     isNew: true,
@@ -671,6 +768,7 @@ export const narrowSkills: SkillDefinition[] = [
   {
     id: 'police-procedures',
     name: 'Police Procedures',
+    description: 'Understand law enforcement methods and protocols',
     formula: ['LCK', 'PCN', 'STA'],
     category: 'non-combat',
     isNew: true,
@@ -678,6 +776,7 @@ export const narrowSkills: SkillDefinition[] = [
   {
     id: 'psychiatry',
     name: 'Psychiatry',
+    description: 'Knowledge of mental disorders and psychological treatment',
     formula: ['LCK', 'PCN', 'PER', 'WPR'],
     category: 'non-combat',
     isInfo: true,
@@ -685,6 +784,7 @@ export const narrowSkills: SkillDefinition[] = [
   {
     id: 'ritual-magic',
     name: 'Ritual Magic',
+    description: 'Perform magical rituals and cast spells',
     formula: ['LCK', 'PCN', 'WPR'],
     category: 'non-combat',
     isNew: true,
@@ -692,6 +792,7 @@ export const narrowSkills: SkillDefinition[] = [
   {
     id: 'running',
     name: 'Running',
+    description: 'Sprint and run long distances effectively',
     formula: ['STA'],
     category: 'non-combat',
     usesCurrentSta: true,
@@ -699,12 +800,14 @@ export const narrowSkills: SkillDefinition[] = [
   {
     id: 'savoir-faire',
     name: 'Savoir-Faire',
+    description: 'Navigate high society with grace and etiquette',
     formula: ['LCK', 'PCN', 'PER', 'WPR'],
     category: 'non-combat',
   },
   {
     id: 'sculpting',
     name: 'Sculpting',
+    description: 'Shape and carve materials into three-dimensional art',
     formula: ['DEX', 'PCN'],
     category: 'non-combat',
     isNew: true,
@@ -712,12 +815,14 @@ export const narrowSkills: SkillDefinition[] = [
   {
     id: 'seafaring',
     name: 'Seafaring',
+    description: 'Operate and navigate boats and ships',
     formula: ['DEX', 'PCN'],
     category: 'non-combat',
   },
   {
     id: 'semaphore',
     name: 'Semaphore',
+    description: 'Communicate using flag or light signals',
     formula: ['DEX', 'PCN', 'WPR'],
     category: 'non-combat',
     isNew: true,
@@ -725,12 +830,14 @@ export const narrowSkills: SkillDefinition[] = [
   {
     id: 'sign-language',
     name: 'Sign Language',
+    description: 'Communicate using manual sign language',
     formula: ['DEX', 'PCN', 'WPR'],
     category: 'non-combat',
   },
   {
     id: 'singing',
     name: 'Singing',
+    description: 'Perform vocal music with skill and control',
     formula: ['PCN', 'PER', 'WPR'],
     category: 'non-combat',
     isNew: true,
@@ -738,6 +845,7 @@ export const narrowSkills: SkillDefinition[] = [
   {
     id: 'skating',
     name: 'Skating',
+    description: 'Move skillfully on ice or roller skates',
     formula: ['AGL', 'PCN', 'STA'],
     category: 'non-combat',
     isNew: true,
@@ -745,6 +853,7 @@ export const narrowSkills: SkillDefinition[] = [
   {
     id: 'spacecraft',
     name: 'Spacecraft',
+    description: 'Pilot and operate spacecraft and space systems',
     formula: ['DEX', 'PCN'],
     category: 'non-combat',
     isNew: true,
@@ -752,30 +861,35 @@ export const narrowSkills: SkillDefinition[] = [
   {
     id: 'sports',
     name: 'Sports [each]',
+    description: 'Compete in a specific athletic sport',
     formula: ['AGL', 'PCN', 'STA'],
     category: 'non-combat',
   },
   {
     id: 'stealth',
     name: 'Stealth',
+    description: 'Move silently and remain hidden from detection',
     formula: ['AGL', 'LCK', 'PCN'],
     category: 'non-combat',
   },
   {
     id: 'surgery',
     name: 'Surgery',
+    description: 'Perform surgical operations and complex medical procedures',
     formula: ['DEX', 'PCN', 'STA', 'WPR'],
     category: 'non-combat',
   },
   {
     id: 'survival',
     name: 'Survival',
+    description: 'Endure harsh environments and find food and shelter',
     formula: ['LCK', 'PCN', 'STA', 'STR', 'WPR'],
     category: 'non-combat',
   },
   {
     id: 'swimming',
     name: 'Swimming',
+    description: 'Swim and stay afloat in water',
     formula: ['STA'],
     category: 'non-combat',
     usesCurrentSta: true,
@@ -783,18 +897,21 @@ export const narrowSkills: SkillDefinition[] = [
   {
     id: 'tracking',
     name: 'Tracking',
+    description: 'Track prey through wilderness terrain',
     formula: ['LCK', 'PCN', 'WPR'],
     category: 'non-combat',
   },
   {
     id: 'trivia',
     name: 'Trivia',
+    description: 'Recall obscure facts and miscellaneous knowledge',
     formula: ['LCK', 'PCN'],
     category: 'non-combat',
   },
   {
     id: 'veterinary-medicine',
     name: 'Veterinary Medicine',
+    description: 'Diagnose and treat injuries and illness in animals',
     formula: ['DEX', 'PCN', 'STA', 'WPR'],
     category: 'non-combat',
     isNew: true,
@@ -802,6 +919,7 @@ export const narrowSkills: SkillDefinition[] = [
   {
     id: 'zoology',
     name: 'Zoology',
+    description: 'Knowledge of animal species, behavior, and biology',
     formula: ['PCN', 'WPR'],
     category: 'non-combat',
     isInfo: true,
