@@ -6,6 +6,7 @@ import { computeBaseScore, computeSkillScore, computeStrikeRank } from '../../ut
 import { useCharacterStore } from '../../store/useCharacterStore';
 import { useRollDialog } from '../../hooks/useRollDialog';
 import { RollDialog } from '../shared/RollDialog';
+import { InitiativeDialog } from '../shared/InitiativeDialog';
 import { Tooltip } from '../shared/Tooltip';
 import { narrowSkills } from '../../data/skills-narrow';
 import { broadSkills } from '../../data/skills-broad';
@@ -60,12 +61,7 @@ export function DerivedStatsTab() {
     return { name: def.name, score: skillScore, sr, category: cat };
   }).filter(Boolean);
 
-  const [initiativeResult, setInitiativeResult] = useState<{ roll: number; total: number } | null>(null);
-
-  const handleInitiativeRoll = () => {
-    const rollVal = Math.floor(Math.random() * 10) + 1;
-    setInitiativeResult({ roll: rollVal, total: 4 + rollVal });
-  };
+  const [initiativeOpen, setInitiativeOpen] = useState(false);
 
   return (
     <div className={styles.tabPage}>
@@ -111,14 +107,10 @@ export function DerivedStatsTab() {
 
         <div className={styles.statCard}>
           <span className={styles.statCardLabel}>Initiative</span>
-          <span className={styles.statCardValue}>
-            {initiativeResult ? initiativeResult.total : '—'}
-          </span>
-          {initiativeResult && (
-            <span className={styles.statCardFormula}>4 + {initiativeResult.roll} (1D10)</span>
-          )}
+          <span className={styles.statCardValue}>4 + 1D10</span>
+          <span className={styles.statCardFormula}>Range: 5–14</span>
           <button
-            onClick={handleInitiativeRoll}
+            onClick={() => setInitiativeOpen(true)}
             style={{
               marginTop: 8,
               display: 'inline-flex',
@@ -136,7 +128,7 @@ export function DerivedStatsTab() {
             }}
           >
             <Dices size={16} />
-            {initiativeResult ? 'Re-roll' : 'Roll Initiative'}
+            Roll Initiative
           </button>
         </div>
 
@@ -234,6 +226,10 @@ export function DerivedStatsTab() {
         onOpenChange={roll.setOpen}
         name={roll.name}
         baseTarget={roll.target}
+      />
+      <InitiativeDialog
+        open={initiativeOpen}
+        onOpenChange={setInitiativeOpen}
       />
     </div>
   );

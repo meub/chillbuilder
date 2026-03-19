@@ -54,7 +54,7 @@ export function RollDialog({ open, onOpenChange, name, baseTarget }: RollDialogP
         const prevTickIndex = Math.floor(((now - 16) - startTime) / SPIN_DURATION * SPIN_TICKS);
 
         if (tickIndex !== prevTickIndex || elapsed < 20) {
-          setDisplayValue(Math.floor(Math.random() * 100) + 1);
+          setDisplayValue(rollD100());
         }
 
         spinRef.current = requestAnimationFrame(tick);
@@ -132,47 +132,45 @@ export function RollDialog({ open, onOpenChange, name, baseTarget }: RollDialogP
               </div>
             </div>
 
-            {/* Dice result area */}
+            {/* Dice result area — fixed height to prevent layout shift */}
             <div className={styles.diceArea}>
-              {displayValue !== null ? (
-                <>
-                  <div
-                    className={`${styles.diceValue} ${spinning ? styles.diceSpinning : ''} ${showingResult ? styles.diceLanded : ''}`}
-                    style={{
-                      color: showingResult
-                        ? (result.result === 'B' || result.result === 'F' ? 'var(--danger)' : 'var(--text-primary)')
-                        : 'var(--text-muted)',
-                    }}
-                  >
-                    {displayValue}
-                  </div>
-                  {showingResult && (
-                    <div className={`${styles.resultBadge} ${RESULT_CLASSES[result.result]} ${styles.resultReveal}`}>
-                      {result.label}
-                    </div>
-                  )}
-                  {showingResult && (
-                    <div className={`${styles.breakdown} ${styles.breakdownReveal}`}>
-                      <div className={styles.breakdownItem}>
-                        <div className={styles.breakdownValue}>{Math.floor(effectiveTarget / 4)}</div>
-                        <div>C</div>
-                      </div>
-                      <div className={styles.breakdownItem}>
-                        <div className={styles.breakdownValue}>{Math.floor(effectiveTarget / 2)}</div>
-                        <div>H</div>
-                      </div>
-                      <div className={styles.breakdownItem}>
-                        <div className={styles.breakdownValue}>{effectiveTarget}</div>
-                        <div>Target</div>
-                      </div>
-                    </div>
-                  )}
-                </>
-              ) : (
-                <div className={styles.diceValue} style={{ color: 'var(--text-muted)' }}>
-                  —
+              <div
+                className={`${styles.diceValue} ${spinning ? styles.diceSpinning : ''} ${showingResult ? styles.diceLanded : ''}`}
+                style={{
+                  color: showingResult
+                    ? (result.result === 'B' || result.result === 'F' ? 'var(--danger)' : 'var(--text-primary)')
+                    : 'var(--text-muted)',
+                }}
+              >
+                {displayValue ?? '—'}
+              </div>
+              <div
+                className={`${styles.resultBadge} ${showingResult ? RESULT_CLASSES[result.result] : ''} ${showingResult ? styles.resultReveal : ''}`}
+                style={{ visibility: showingResult ? 'visible' : 'hidden' }}
+              >
+                {showingResult ? result.label : 'Placeholder'}
+              </div>
+              <div
+                className={`${styles.breakdown} ${showingResult ? styles.breakdownReveal : ''}`}
+                style={{ visibility: showingResult ? 'visible' : 'hidden' }}
+              >
+                <div className={styles.breakdownItem}>
+                  <div className={styles.breakdownValue}>{Math.floor(effectiveTarget / 4)}</div>
+                  <div>C</div>
                 </div>
-              )}
+                <div className={styles.breakdownItem}>
+                  <div className={styles.breakdownValue}>{Math.floor(effectiveTarget / 2)}</div>
+                  <div>H</div>
+                </div>
+                <div className={styles.breakdownItem}>
+                  <div className={styles.breakdownValue}>{effectiveTarget}</div>
+                  <div>Target</div>
+                </div>
+              </div>
+            </div>
+
+            <div className={styles.cryptoNote}>
+              Uses cryptographic randomness (Web Crypto API)
             </div>
 
             {/* Actions */}

@@ -18,8 +18,28 @@ const RESULT_LABELS: Record<ResultLevel, string> = {
   B: 'Botch',
 };
 
+/**
+ * Cryptographically random integer in range [1, max].
+ * Uses crypto.getRandomValues() for uniform distribution
+ * with rejection sampling to eliminate modulo bias.
+ */
+function secureRandomInt(max: number): number {
+  const array = new Uint32Array(1);
+  const limit = Math.floor(0x100000000 / max) * max; // rejection threshold
+  let value: number;
+  do {
+    crypto.getRandomValues(array);
+    value = array[0];
+  } while (value >= limit);
+  return (value % max) + 1;
+}
+
 export function rollD100(): number {
-  return Math.floor(Math.random() * 100) + 1;
+  return secureRandomInt(100);
+}
+
+export function rollD10(): number {
+  return secureRandomInt(10);
 }
 
 /**

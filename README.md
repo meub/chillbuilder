@@ -10,33 +10,49 @@ Inspired by [Pathbuilder 2e](https://pathbuilder2e.com/) — Chillbuilder aims t
 - **From-scratch character building** using the 100 CIP (Character Insight Points) budget system
 - Configurable CIP totals: 85 (low-power), 100 (standard), or 125 (action horror)
 - Full support for all **8 basic abilities** (AGL, DEX, LCK, PCN, PER, STA, STR, WPR) with automatic CIP cost calculation
-- **Both Broad and Narrow skill systems** from the Core Rules and Companion book, with 100+ skills and automatic base score computation
-- Complete catalog of **Edges** (advantages) and **Drawbacks** with CIP costs/bonuses
-- **The Art** — both the SAVE campaign school/discipline system (Communicative, Incorporeal, Protective, Restorative) and the Companion's build-your-own-spell system
+- **118 narrow skills and 15 broad skills** from the Core Rules and Companion, with formula display, descriptions, and automatic base score computation
+- Skill catalog with **ability filter** (multi-select with AND/OR mode) and search
+- **Encouraged/discouraged skill modifiers** — halve or double CIP costs per CM rules
+- Complete catalog of **Edges** and **Drawbacks** with CIP costs/bonuses
+- **The Art** — SAVE campaign disciplines (4 schools with prerequisite enforcement) and the Companion's build-your-own-spell system with potency sliders
 - **Psionic Abilities** from the Companion
-- **Luck Points** system with Gritty/Wild/Central Character variants
-- Automatic **derived stat calculation** (Movement, Sprinting, Unskilled Melee, Sensing the Unknown, Wounds, Initiative)
+- **Luck Points** with Gritty / Standard / Wild modes and Good Fortune/Misfortune edge modifiers
+- Automatic **derived stat calculation** (Movement, Sprinting, Unskilled Melee, Sensing the Unknown, Wounds)
+- **Strike Rank table** — pre-calculated L/H/C result bands for all combat skills
 - Background details: age, height/weight, education, profession, social status, personal history
-- Soft CIP budget validation — warnings when over/under budget, never blocks saving
+- CIP budget tracker in sidebar with **amber/red warnings** when over budget
+- **Tooltips** throughout — hover abilities, skills, edges, drawbacks, and derived stats for rules details and formulas
+
+### Dice Rolling
+- **d100 roller** for ability and skill checks with animated spin effect
+- **Difficulty modifiers** — Easy (+15), Average (0), Difficult (-15), Very Difficult (-25)
+- **Result levels** — Colossal, High, Medium, Low, Failure, Botch (roll 100) with color-coded badges
+- **Initiative roller** — 4 + 1D10 with dedicated modal
+- **Cryptographic randomness** via Web Crypto API with rejection sampling for true uniform distribution
+- **Keyboard shortcuts** — Enter to roll, Escape to close
 
 ### Play Management
 - Track **Current Stamina** and **Current Willpower** as they change during play
-- **Wound tracking** with visual wound boxes
-- Skill advancement and discipline progression
+- **Wound tracking** with visual wound boxes that auto-sync when abilities change
+- **Luck Points tracker** with mode-aware starting values
 - Quick reference for skill scores and strike ranks during sessions
 
-### Data Management
+### Data & UI
 - **JSON export/import** for sharing and backup
-- **Printable character sheet** view matching the feel of the official sheet
-- **localStorage persistence** — your characters are saved automatically in your browser
-- Manage multiple characters
+- **Printable character sheet** / Save as PDF via browser print
+- **localStorage persistence** — characters saved automatically
+- **Multiple characters** with duplicate and delete
+- **Dark and light themes** with toggle (persisted to localStorage)
+- **Responsive design** — hamburger menu sidebar on mobile/tablet
+- **Undo toast** on skill, edge, drawback, and discipline removal
 
 ## Tech Stack
-- **React** + **TypeScript**
+- **React 19** + **TypeScript**
 - **Vite** for fast builds
+- **Zustand** for state management with localStorage persistence
+- **Radix UI** for accessible tooltips, dialogs, and primitives
+- **CSS Modules** + CSS custom properties for styling
 - Purely **client-side** — no server, no account needed
-- **localStorage** for persistence
-- Dark theme with modern, polished UI
 
 ## Source Material
 
@@ -108,36 +124,30 @@ interface Abilities {
 }
 ```
 
-### Implementation Plan
+## Feature Ideas
 
-#### Phase 1: Foundation
-- [ ] Project scaffolding (Vite + React + TypeScript)
-- [ ] Dark theme and layout shell (sidebar + tabbed main area)
-- [ ] Character data model and state management
-- [ ] localStorage persistence with auto-save
-- [ ] Character list view (create, select, delete characters)
+### Rules Accuracy
+- Discipline CIP cost display with school multiplier (2nd school doubles, 3rd triples, etc.)
+- Spell CIP cost display (3 CIP per spell) in sidebar and Art tab
+- Psionic level selector for leveled disciplines (S/T/M toggle)
 
-#### Phase 2: Core Character Creation
-- [ ] **Abilities Tab** — score inputs (10-90), CIP cost display, current STA/WPR tracking
-- [ ] **Skills Tab** — searchable/filterable skill list, broad/narrow toggle, level selectors, auto-computed base scores
-- [ ] **Edges & Drawbacks Tab** — browsable catalog, purchase/remove, CIP cost/bonus tracking
-- [ ] **Background Tab** — name, age, height/weight, education, profession, social status, personal history, handedness
+### Usability
+- Sort owned skills alphabetically or by category
+- Collapse/expand skill categories in the catalog
+- Drag to reorder equipment items
+- Per-tab character notes (e.g., notes on specific edges or skills)
+- Styled confirmation modal for character deletion
 
-#### Phase 3: Magic & Psionics
-- [ ] **The Art Tab** — SAVE campaign disciplines (4 schools, S/T/M levels, prerequisite enforcement)
-- [ ] **The Art Tab** — Companion spell builder (causes + effects + potency calculator)
-- [ ] **The Art Tab** — Psionic abilities (requires Psionic Ability edge)
+### Visual Polish
+- Empty state illustrations for tabs with no data
+- Skill score badge colors (green for high, amber for mid, etc.)
+- CIP breakdown pie/bar chart in sidebar
+- Tab badge counts showing number of skills/edges/etc on each tab label
 
-#### Phase 4: Derived Stats & Polish
-- [ ] **Derived Stats Tab** — auto-calculated Movement, Sprinting, Unskilled Melee, Sensing the Unknown, Wounds, Initiative
-- [ ] **Equipment Tab** — basic equipment list with notes
-- [ ] CIP budget tracker in sidebar with warnings
-- [ ] Luck Points tracker
-
-#### Phase 5: Export & Print
-- [ ] JSON export/import
-- [ ] Printable character sheet layout
-- [ ] Final UI polish and responsiveness
+### Advanced
+- Character comparison — side-by-side view of two characters
+- Preset templates — quick-start characters (Investigator, Occultist, Soldier, etc.)
+- Session log — track STA/WPR/wound changes over time during play
 
 ## License
 

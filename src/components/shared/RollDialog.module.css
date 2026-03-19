@@ -155,6 +155,14 @@
   font-variant-numeric: tabular-nums;
 }
 
+.cryptoNote {
+  text-align: center;
+  font-size: 10px;
+  color: var(--text-muted);
+  margin-top: var(--space-sm);
+  opacity: 0.6;
+}
+
 .actions {
   display: flex;
   gap: var(--space-sm);
