@@ -1,5 +1,6 @@
 .tabBar {
   display: flex;
+  flex: 1;
   gap: 2px;
   background: var(--bg-secondary);
   padding: var(--space-xs) var(--space-md);
