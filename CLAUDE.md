@@ -137,7 +137,7 @@ Scores range 10–90 (average 50 for humans). Cost: 1 CIP per 5 points of abilit
 | Unskilled Melee Score | (AGL + STR) / 2 + 4 |
 | Sensing the Unknown | floor(PCN / 5) + 20 (base; modified by Evil Sense edge) |
 | Initiative | roll-based (4 + 1D10 typically) |
-| Wounds | Based on STR+STA: characters have boxes to track (typically around 3-5) |
+| Wounds | floor((STA + STR) / 4) — total wound boxes before dying (Core Rules p. 101) |
 
 ### Skills
 
@@ -685,10 +685,11 @@ Each skill has a **Strike Rank** used in combat. Strike Rank = the Skill Score c
 
 ### Wounds System
 
-Characters have a number of wound boxes based on STR and STA:
-- Wound boxes ≈ floor((STR + STA) / 2 / 10) (approximately 3-9 boxes)
+Characters have a number of wound boxes based on STR and STA (Core Rules p. 101):
+- Total wound boxes = floor((STA + STR) / 4) — the total wounds a character can take before dying
 - Each wound box represents a serious injury
-- When all wound boxes are filled, the character is incapacitated
+- A character is **Critically Wounded** when 5 or fewer wound boxes remain unmarked; at that point they lose 1 box per round until death or medical treatment
+- When all wound boxes are filled, the character is dead
 - Wounds heal slowly (1 per day with rest, modified by Improved Wound Recovery edge)
 
 ### Height & Weight Guidelines

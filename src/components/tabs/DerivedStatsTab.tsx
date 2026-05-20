@@ -159,7 +159,7 @@ export function DerivedStatsTab() {
           </span>
         </div>
 
-        <Tooltip content={`floor((${character.abilities.STR} + ${character.abilities.STA}) / 2 / 10) = ${woundBoxCount}`} side="bottom">
+        <Tooltip content={`floor((${character.abilities.STR} + ${character.abilities.STA}) / 4) = ${woundBoxCount}`} side="bottom">
           <div className={styles.statCard}>
             <span className={styles.statCardLabel}>Wound Boxes ({woundBoxCount})</span>
             <div style={{ display: 'flex', gap: 8, marginTop: 8, flexWrap: 'wrap' }}>
@@ -180,7 +180,7 @@ export function DerivedStatsTab() {
                 />
               ))}
             </div>
-            <span className={styles.statCardFormula}>floor((STR+STA)/2/10)</span>
+            <span className={styles.statCardFormula}>floor((STR+STA)/4)</span>
           </div>
         </Tooltip>
       </div>

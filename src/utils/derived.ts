@@ -18,7 +18,7 @@ export function computeSensingTheUnknown(abilities: Abilities, hasEvilSense: boo
 }
 
 export function computeWoundBoxes(abilities: Abilities): number {
-  return Math.floor((abilities.STR + abilities.STA) / 2 / 10);
+  return Math.floor((abilities.STR + abilities.STA) / 4);
 }
 
 export interface DerivedStats {
